@@ -9,13 +9,13 @@ import UIKit
 
 
 struct APIResponse: Codable{
-    let total: Int
-    let totalHits: Int
+    let total: Int?
+    let totalHits: Int?
     let hits: [Hits]
 }
 
 struct Hits: Codable{
-    let id: Int
-    let imageURL: String
+    let id: Int?
+    let imageURL: String?
 }
 

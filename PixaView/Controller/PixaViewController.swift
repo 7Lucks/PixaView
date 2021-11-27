@@ -15,6 +15,7 @@ class PixaViewController: UIViewController {
     //MARK:  Properties -
     let urlStr = "https://pixabay.com/api/?key=16834549-9bf1a2a9f7bfa54e36404be81&q=yellow+flowers&image_type=photo"  // https://pixabay.com/api/
     
+    var hits: [Hits] = []
     
     //MARK: - end of Properties
     
@@ -22,9 +23,9 @@ class PixaViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-//        self.collectionView.register(UINib(nibName: "PixaViewCell", bundle: nil), forCellWithReuseIdentifier: "PixaViewCell") //assign to cell the Xib file
-//        self.collectionView.dataSource = self //the cell need to understand where to get the filling from. add protocol to extension - UICollectionViewDataSource
-//        self.collectionView.delegate = self //delegate with collectionView. Subscribe to UICollectionViewDelegate as delegate
+        self.collectionView.register(UINib(nibName: "PixaViewCell", bundle: nil), forCellWithReuseIdentifier: "PixaViewCell") //assign to cell the Xib file
+        self.collectionView.dataSource = self //the cell need to understand where to get the filling from. add protocol to extension - UICollectionViewDataSource
+        self.collectionView.delegate = self //delegate with collectionView. Subscribe to UICollectionViewDelegate as delegate
         fetchPics()
         
     }
@@ -33,18 +34,23 @@ class PixaViewController: UIViewController {
     //MARK: Methods -
     func fetchPics(){
         guard let url = URL(string: urlStr) else{return}
-        let task = URLSession.shared.dataTask(with: url){ data, response, error in
+        
+        let task = URLSession.shared.dataTask(with: url){[weak self] data, response, error in
             guard let data = data, let response = response, error == nil else {
                 return
             }
            // print("have some data") +
+            
             //do catch for JSON decoder
             do{
                 let jsonResults = try JSONDecoder().decode(APIResponse.self, from: data)
-                print(jsonResults.total)
+               // print(jsonResults.hits.count)  //by default is 20
+                DispatchQueue.main.async {
+                    self?.hits = jsonResults.hits
+                }// to main que
+                
             }catch{
                 print("Here is some ERR - \(error)")
-                
             }
         }
         task.resume()
@@ -56,17 +62,17 @@ class PixaViewController: UIViewController {
 } // end of PixaViewController class
 
 //MARK: Extensions -
-//extension PixaViewController:UICollectionViewDataSource, UICollectionViewDelegate{
-//    // number of cells
-//    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-//        return 0
-//    }
-//    // what type of the cells
-//    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-//        <#code#>
-//    }
-//    
-//}
+extension PixaViewController:UICollectionViewDataSource, UICollectionViewDelegate{
+    // number of cells
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return hits.count
+    }
+    // what type of the cells
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "PixaViewCell", for: indexPath) as! PixaViewCell
+        return cell
+    }
+}
 
 
 
