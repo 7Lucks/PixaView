@@ -14,8 +14,7 @@ class PixaViewController: UIViewController {
     
     //MARK:  Properties -
     let urlStr = "https://pixabay.com/api/?key=16834549-9bf1a2a9f7bfa54e36404be81&q=yellow+flowers&image_type=photo"  // https://pixabay.com/api/
-    
-    var hits: [Hits] = []
+    var hitsRESULT: [Hits] = []
     
     //MARK: - end of Properties
     
@@ -27,7 +26,6 @@ class PixaViewController: UIViewController {
         self.collectionView.dataSource = self //the cell need to understand where to get the filling from. add protocol to extension - UICollectionViewDataSource
         self.collectionView.delegate = self //delegate with collectionView. Subscribe to UICollectionViewDelegate as delegate
         fetchPics()
-        
     }
     //MARK: - End of viewDidLoad
 
@@ -39,14 +37,15 @@ class PixaViewController: UIViewController {
             guard let data = data, let response = response, error == nil else {
                 return
             }
-           // print("have some data") +
-            
+            // print("have some data") +
             //do catch for JSON decoder
             do{
-                let jsonResults = try JSONDecoder().decode(APIResponse.self, from: data)
-               // print(jsonResults.hits.count)  //by default is 20
+                let jsonResults = try JSONDecoder().decode(ImageAPIResponse.self, from: data)
+                //                print(jsonResults.hits.count)  //by default is 20
+                //                print(response)
                 DispatchQueue.main.async {
-                    self?.hits = jsonResults.hits
+                    self?.hitsRESULT = jsonResults.hits
+                    self?.collectionView.reloadData() // reload data to cell
                 }// to main que
                 
             }catch{
@@ -61,15 +60,22 @@ class PixaViewController: UIViewController {
     
 } // end of PixaViewController class
 
+
 //MARK: Extensions -
 extension PixaViewController:UICollectionViewDataSource, UICollectionViewDelegate{
     // number of cells
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return hits.count
+        return hitsRESULT.count
     }
     // what type of the cells
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        
+        let imageURLString = hitsRESULT[indexPath.item].imageURL
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "PixaViewCell", for: indexPath) as! PixaViewCell
+        cell.backgroundColor = .cyan
+      //  cell.pixaImage
+        
+        
         return cell
     }
 }

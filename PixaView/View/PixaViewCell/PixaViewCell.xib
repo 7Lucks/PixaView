@@ -29,6 +29,9 @@
                 <constraint firstItem="Mer-3i-z5V" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="wb7-ro-Ouq"/>
             </constraints>
             <size key="customSize" width="461" height="355"/>
+            <connections>
+                <outlet property="pixaImage" destination="Mer-3i-z5V" id="PaX-qb-jth"/>
+            </connections>
             <point key="canvasLocation" x="177.536231884058" y="112.83482142857142"/>
         </collectionViewCell>
     </objects>
