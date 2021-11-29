@@ -17,22 +17,33 @@
                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                 <subviews>
                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Mer-3i-z5V">
-                        <rect key="frame" x="0.0" y="0.0" width="461" height="355"/>
+                        <rect key="frame" x="0.0" y="0.0" width="461" height="324"/>
                     </imageView>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="image name " textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="A83-cU-Zbz">
+                        <rect key="frame" x="10" y="329" width="441" height="21"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                        <nil key="textColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
                 </subviews>
             </view>
             <viewLayoutGuide key="safeArea" id="ZTg-uK-7eu"/>
             <constraints>
-                <constraint firstAttribute="bottom" secondItem="Mer-3i-z5V" secondAttribute="bottom" id="OK7-en-yvR"/>
                 <constraint firstItem="Mer-3i-z5V" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="OVk-qK-4Kg"/>
+                <constraint firstItem="A83-cU-Zbz" firstAttribute="centerX" secondItem="ZTg-uK-7eu" secondAttribute="centerX" id="RAb-9O-YtP"/>
+                <constraint firstAttribute="bottom" secondItem="A83-cU-Zbz" secondAttribute="bottom" constant="5" id="WhL-hd-FPy"/>
+                <constraint firstItem="A83-cU-Zbz" firstAttribute="top" secondItem="Mer-3i-z5V" secondAttribute="bottom" constant="5" id="c95-hw-LOd"/>
+                <constraint firstItem="A83-cU-Zbz" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="10" id="cFb-hD-k7C"/>
+                <constraint firstAttribute="trailing" secondItem="A83-cU-Zbz" secondAttribute="trailing" constant="10" id="cte-0d-U1R"/>
                 <constraint firstAttribute="trailing" secondItem="Mer-3i-z5V" secondAttribute="trailing" id="gfN-qf-Xxo"/>
                 <constraint firstItem="Mer-3i-z5V" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="wb7-ro-Ouq"/>
             </constraints>
             <size key="customSize" width="461" height="355"/>
             <connections>
+                <outlet property="iamgeNameLabel" destination="A83-cU-Zbz" id="D5r-8j-Qma"/>
                 <outlet property="pixaImage" destination="Mer-3i-z5V" id="PaX-qb-jth"/>
             </connections>
-            <point key="canvasLocation" x="177.536231884058" y="112.83482142857142"/>
+            <point key="canvasLocation" x="168.84057971014494" y="113.50446428571428"/>
         </collectionViewCell>
     </objects>
 </document>

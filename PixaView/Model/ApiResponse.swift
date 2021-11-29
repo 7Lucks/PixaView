@@ -17,5 +17,6 @@ struct ImageAPIResponse: Codable{
 struct Hits: Codable{
     let id: Int
     let imageURL: String?
+    let tags: String
 }
 

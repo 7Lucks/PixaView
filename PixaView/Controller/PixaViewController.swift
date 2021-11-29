@@ -22,7 +22,7 @@ class PixaViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        self.collectionView.register(UINib(nibName: "PixaViewCell", bundle: nil), forCellWithReuseIdentifier: "PixaViewCell") //assign to cell the Xib file
+        self.collectionView.register(UINib(nibName: PixaViewCell.cellIdentifier, bundle: nil), forCellWithReuseIdentifier: PixaViewCell.cellIdentifier) //assign to cell the Xib file
         self.collectionView.dataSource = self //the cell need to understand where to get the filling from. add protocol to extension - UICollectionViewDataSource
         self.collectionView.delegate = self //delegate with collectionView. Subscribe to UICollectionViewDelegate as delegate
         fetchPics()
@@ -35,6 +35,7 @@ class PixaViewController: UIViewController {
         
         let task = URLSession.shared.dataTask(with: url){[weak self] data, response, error in
             guard let data = data, let response = response, error == nil else {
+                //let image = UIImage(data: data!)
                 return
             }
             // print("have some data") +
@@ -71,8 +72,19 @@ extension PixaViewController:UICollectionViewDataSource, UICollectionViewDelegat
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
         let imageURLString = hitsRESULT[indexPath.item].imageURL
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "PixaViewCell", for: indexPath) as! PixaViewCell
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PixaViewCell.cellIdentifier, for: indexPath) as? PixaViewCell else{
+            return PixaViewCell()
+        }
         cell.backgroundColor = .cyan
+        cell.iamgeNameLabel.text = hitsRESULT[indexPath.row].tags
+        cell.configure(with: imageURLString!)
+        
+        //MARK: -  я думаю что ошибка при присвоении изображения ячнйке. потмоу как imageUrl опциональный, но без этого у меня ошибка cell.configure(with: imageURLString!) врапнул.
+            //выходит полная хуйня :/
+        
+        
+        
+        //cell.pixaImage.image = hitsRESULT[indexPath.item].imageURL
       //  cell.pixaImage
         
         
