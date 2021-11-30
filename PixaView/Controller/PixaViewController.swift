@@ -14,8 +14,9 @@ class PixaViewController: UIViewController {
     
     //MARK:  Properties -
     let urlStr = "https://pixabay.com/api/?key=16834549-9bf1a2a9f7bfa54e36404be81&q=yellow+flowers&image_type=photo"  // https://pixabay.com/api/
-    var hitsRESULT: [Hits] = []
+    var hitsRESULT: [Hits] = [] //array from json
     
+   
     //MARK: - end of Properties
     
     //MARK:  viewDidLoad -
@@ -38,12 +39,15 @@ class PixaViewController: UIViewController {
                 //let image = UIImage(data: data!)
                 return
             }
-            // print("have some data") +
+            // print("have some data")
+            
             //do catch for JSON decoder
             do{
                 let jsonResults = try JSONDecoder().decode(ImageAPIResponse.self, from: data)
-                //                print(jsonResults.hits.count)  //by default is 20
-                //                print(response)
+                
+                               print(jsonResults.hits.count)  //by default is 20
+                              print(response)
+                
                 DispatchQueue.main.async {
                     self?.hitsRESULT = jsonResults.hits
                     self?.collectionView.reloadData() // reload data to cell
@@ -58,9 +62,7 @@ class PixaViewController: UIViewController {
     
     //MARK: - End of Methods
     
-    
 } // end of PixaViewController class
-
 
 //MARK: Extensions -
 extension PixaViewController:UICollectionViewDataSource, UICollectionViewDelegate{
@@ -71,23 +73,15 @@ extension PixaViewController:UICollectionViewDataSource, UICollectionViewDelegat
     // what type of the cells
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
-        let imageURLString = hitsRESULT[indexPath.item].imageURL
+        let imageURLString = hitsRESULT[indexPath.item].largeImageURL  //image from json to cell
+        
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PixaViewCell.cellIdentifier, for: indexPath) as? PixaViewCell else{
             return PixaViewCell()
         }
-        cell.backgroundColor = .cyan
-        cell.iamgeNameLabel.text = hitsRESULT[indexPath.row].tags
-        cell.configure(with: imageURLString!)
-        
-        //MARK: -  я думаю что ошибка при присвоении изображения ячнйке. потмоу как imageUrl опциональный, но без этого у меня ошибка cell.configure(with: imageURLString!) врапнул.
-            //выходит полная хуйня :/
-        
-        
-        
-        //cell.pixaImage.image = hitsRESULT[indexPath.item].imageURL
-      //  cell.pixaImage
-        
-        
+        cell.backgroundColor = .systemGray
+        cell.imgNameLabel.text = hitsRESULT[indexPath.row].tags  //- с тегами работает)
+       // cell.configure(with: imageURLString) //
+        cell.configure(with: imageURLString)
         return cell
     }
 }

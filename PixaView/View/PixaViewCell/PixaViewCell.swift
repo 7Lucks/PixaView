@@ -10,39 +10,22 @@ import UIKit
 class PixaViewCell: UICollectionViewCell {
     //MARK:  Outlets -
     @IBOutlet weak var pixaImage: UIImageView!
-    @IBOutlet weak var iamgeNameLabel: UILabel!
+    @IBOutlet weak var imgNameLabel: UILabel!
     //MARK: - end of Outlets
     
     //MARK: Properties_
-  static let cellIdentifier = "PixaViewCell"
+    static let cellIdentifier = "PixaViewCell"
     private let imageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.clipsToBounds = true              // clip to bounds
+       // imageView.clipsToBounds = true              // clip to bounds
         imageView.contentMode = .scaleAspectFill    // aspect fill
         return imageView
     }()
     
     //MARK: - end of Properties
-    
-// FIXME: - ? -
-    override init (frame: CGRect){
-        super.init(frame: frame)
-        
-        contentView.addSubview(imageView)
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
-    override func layoutSubviews() {
-        super.layoutSubviews()
-        imageView.frame = contentView.bounds
-    }
-    
     override func prepareForReuse() {
         super.prepareForReuse()
-        
+
         imageView.image = nil
     }
     
@@ -51,18 +34,16 @@ class PixaViewCell: UICollectionViewCell {
         guard let url = URL(string: urlString) else{
             return
         }
-        let taskImage = URLSession.shared.dataTask(with: url){data, response, error in
-            guard let data = data, let response = response, error == nil else{
+        let taskSetImage = URLSession.shared.dataTask(with: url){data, _, error in
+            guard let data = data, error == nil else{
                 return
             }
             DispatchQueue.main.async {
                 let image = UIImage(data: data)
-                self.imageView.image = image
+                self.pixaImage.image = image
             }
-            
         }
-        taskImage.resume()
+        taskSetImage.resume()
     }
     //MARK: - end of Methods
-    
 }//end of PixaViewCell
