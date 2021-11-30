@@ -9,27 +9,34 @@ import UIKit
 
 class PixaViewCell: UICollectionViewCell {
     //MARK:  Outlets -
-    @IBOutlet weak var pixaImage: UIImageView!
+    @IBOutlet weak var pixaImageOutlet: UIImageView!
     @IBOutlet weak var imgNameLabel: UILabel!
+    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     //MARK: - end of Outlets
     
-    //MARK: Properties_
+    //MARK: Properties-
     static let cellIdentifier = "PixaViewCell"
-    private let imageView: UIImageView = {
-        let imageView = UIImageView()
-       // imageView.clipsToBounds = true              // clip to bounds
-        imageView.contentMode = .scaleAspectFill    // aspect fill
-        return imageView
-    }()
     
-    //MARK: - end of Properties
+    //reuse of cell and nill for images
     override func prepareForReuse() {
         super.prepareForReuse()
-
-        imageView.image = nil
+        self.pixaImageOutlet.image = nil
     }
+    //MARK: - end of Properties
+    
+    
+    
+        //FIXME: - Перенести методы в другой файл!
     
     //MARK:  Methods-
+    
+    func cellPixaConfig(){
+        pixaImageOutlet.clipsToBounds = true              // clip to bounds
+        pixaImageOutlet.contentMode = .scaleAspectFill   // aspect fill
+        activityIndicator.isHidden = false
+        activityIndicator.hidesWhenStopped = true
+    }
+    
     func configure(with urlString: String){
         guard let url = URL(string: urlString) else{
             return
@@ -40,7 +47,8 @@ class PixaViewCell: UICollectionViewCell {
             }
             DispatchQueue.main.async {
                 let image = UIImage(data: data)
-                self.pixaImage.image = image
+                self.pixaImageOutlet.image = image
+                self.activityIndicator.stopAnimating()
             }
         }
         taskSetImage.resume()
