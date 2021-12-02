@@ -13,7 +13,7 @@ class PixaViewController: UIViewController {
     //MARK: - end of Outlets
     
     //MARK:  Properties -
-    let urlStr = "https://pixabay.com/api/?key=16834549-9bf1a2a9f7bfa54e36404be81&q=yellow+flowers&per_page=100&image_type=photo"  // https://pixabay.com/api/
+    let urlStr = "https://pixabay.com/api/?key=16834549-9bf1a2a9f7bfa54e36404be81&q=apple&per_page=100&image_type=photo"  // https://pixabay.com/api/
     var hitsRESULT: [Hits] = [] //array from json
     
     //MARK: - end of Properties
@@ -69,7 +69,8 @@ extension PixaViewController:UICollectionViewDataSource, UICollectionViewDelegat
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return hitsRESULT.count
     }
-    // what type of the cells
+    
+    // type of the cells
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
         let imageURLString = hitsRESULT[indexPath.item].webformatURL  //image from json to cell
@@ -77,8 +78,8 @@ extension PixaViewController:UICollectionViewDataSource, UICollectionViewDelegat
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PixaViewCell.cellIdentifier, for: indexPath) as? PixaViewCell else{
             return PixaViewCell()
         }
-        cell.backgroundColor = .systemGray
-        cell.imgNameLabel.text = hitsRESULT[indexPath.row].tags  //- с тегами работает)
+       // cell.backgroundColor = .systemGray
+        cell.imgNameLabel.text = hitsRESULT[indexPath.row].tags
         cell.configure(with: imageURLString)
         cell.cellPixaConfig()
         return cell
@@ -89,23 +90,23 @@ extension PixaViewController:UICollectionViewDataSource, UICollectionViewDelegat
     // MARK: QUESTION : при перевороте устройства варианты указать чере свитч?
     // cell cizes  // as diasplay // vertical
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height )  // need to check
+        return CGSize(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.width )  // need to check
     }
     // set cell indent(отступ) by 0 px
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        return 0
-        //return 10
+        //return 0
+        return 10
     }
-//
-//    // if use "paging" shoud use this method insetForSectionAt
-//
-//    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-//        return UIEdgeInsets(top: 5, left: 0, bottom: 5, right: 0)
-//    }
-    
-    
-    
-    
+    //
+    //    // when use "paging" shoud use this method insetForSectionAt
+    //
+        func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+            return UIEdgeInsets(top: 5, left: 0, bottom: 5, right: 0)
+        }
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let detailedVC = (storyboard?.instantiateViewController(withIdentifier: "DetailedViewController") as? DetailedViewController)!
+        self.navigationController?.pushViewController(detailedVC, animated: true)
+    }
     
     
     

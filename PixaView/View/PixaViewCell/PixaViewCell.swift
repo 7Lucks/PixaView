@@ -30,11 +30,13 @@ class PixaViewCell: UICollectionViewCell {
     
     //MARK:  Methods-
     
-    func cellPixaConfig(){
+    func cellPixaConfig() -> UIImageView{
         pixaImageOutlet.clipsToBounds = true              // clip to bounds
         pixaImageOutlet.contentMode = .scaleAspectFill   // aspect fill
+        pixaImageOutlet.layer.cornerRadius = 15
         activityIndicator.isHidden = false
         activityIndicator.hidesWhenStopped = true
+        return pixaImageOutlet
     }
     
     func configure(with urlString: String){

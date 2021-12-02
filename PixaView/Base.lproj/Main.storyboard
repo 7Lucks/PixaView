@@ -56,6 +56,52 @@
             </objects>
             <point key="canvasLocation" x="1152.1739130434783" y="-167.41071428571428"/>
         </scene>
+        <!--Detailed View Controller-->
+        <scene sceneID="MMi-FV-sdv">
+            <objects>
+                <viewController storyboardIdentifier="DetailedViewController" id="M1W-Kd-fcM" customClass="DetailedViewController" customModule="PixaView" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="hGz-eZ-xT9">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="G5V-tS-bu3">
+                                <rect key="frame" x="0.0" y="44" width="414" height="818"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <collectionViewFlowLayout key="collectionViewLayout" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="2JI-aU-xJ4">
+                                    <size key="itemSize" width="128" height="128"/>
+                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                </collectionViewFlowLayout>
+                                <cells>
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="P7z-vy-DWO">
+                                        <rect key="frame" x="0.0" y="0.0" width="128" height="128"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="1Yq-BB-dQC">
+                                            <rect key="frame" x="0.0" y="0.0" width="128" height="128"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </collectionViewCellContentView>
+                                    </collectionViewCell>
+                                </cells>
+                            </collectionView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="bhf-a6-Vyq"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="bhf-a6-Vyq" firstAttribute="trailing" secondItem="G5V-tS-bu3" secondAttribute="trailing" id="1sW-Vf-jWj"/>
+                            <constraint firstItem="G5V-tS-bu3" firstAttribute="leading" secondItem="bhf-a6-Vyq" secondAttribute="leading" id="MZ2-9y-8eA"/>
+                            <constraint firstItem="G5V-tS-bu3" firstAttribute="top" secondItem="bhf-a6-Vyq" secondAttribute="top" id="Wnb-wc-5HZ"/>
+                            <constraint firstItem="bhf-a6-Vyq" firstAttribute="bottom" secondItem="G5V-tS-bu3" secondAttribute="bottom" id="oUB-Ph-HsP"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="detailedCollectionView" destination="G5V-tS-bu3" id="F2K-b2-Nbb"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="h83-Rp-0rj" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1972" y="-167"/>
+        </scene>
         <!--Navigation Controller-->
         <scene sceneID="Azk-Iy-oEp">
             <objects>
