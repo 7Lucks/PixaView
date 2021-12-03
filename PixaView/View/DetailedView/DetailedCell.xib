@@ -9,7 +9,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" restorationIdentifier="DetailedCell" id="gTV-IL-0wX" customClass="DetailedCell" customModule="PixaView" customModuleProvider="target">
+        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" restorationIdentifier="DetailedCell" reuseIdentifier="" id="gTV-IL-0wX" customClass="DetailedCell" customModule="PixaView" customModuleProvider="target">
             <rect key="frame" x="0.0" y="0.0" width="811" height="662"/>
             <autoresizingMask key="autoresizingMask"/>
             <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
@@ -44,7 +44,7 @@
             <size key="customSize" width="811" height="662"/>
             <connections>
                 <outlet property="detailImage" destination="L5y-NO-iWC" id="fJM-0R-jsx"/>
-                <outlet property="detailedLabel" destination="leF-MH-NuS" id="MX9-6P-iqX"/>
+                <outlet property="detailedTextLabel" destination="leF-MH-NuS" id="MX9-6P-iqX"/>
             </connections>
             <point key="canvasLocation" x="518.1159420289855" y="152.00892857142856"/>
         </collectionViewCell>

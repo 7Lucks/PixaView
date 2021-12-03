@@ -7,35 +7,45 @@
 
 import UIKit
 
-class DetailedViewController: UIViewController {
+class DetailedViewController: UIViewController{
     
-
+    
+    //MARK: Outlets-
+  
     @IBOutlet weak var detailedCollectionView: UICollectionView!
     
-    let detailedPictures = [Hits]()
+   //MARK: Properties-
+    var detailedPictures: UIImage?
+    var tags = ""
     
+    
+    //MARK: viewDidLoad-
     override func viewDidLoad() {
         super.viewDidLoad()
         
-//        self.detailedCollectionView.delegate = self
-//        self.detailedCollectionView.dataSource = self
-//        self.detailedCollectionView.register(UINib(nibName: DetailedCell.detailIdent, bundle: nil), forCellWithReuseIdentifier: DetailedCell.detailIdent)
-        
+        self.detailedCollectionView.register(UINib(nibName: DetailedCell.detailCellIdentifier, bundle: nil), forCellWithReuseIdentifier: DetailedCell.detailCellIdentifier)
+        self.detailedCollectionView.dataSource = self
+        self.detailedCollectionView.delegate = self
+
     }
     
-    
-//    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-//        return detailedPictures.count
-//    }
-//
-//    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-//        let imageURLString = detailedPictures[indexPath.item].webformatURL  //image from json to cell
-//
-//        guard let detailedCell = collectionView.dequeueReusableCell(withReuseIdentifier: PixaViewCell.cellIdentifier, for: indexPath) as? PixaViewCell else{
-//            return PixaViewCell()
-//        }
-//        detailedCell.
-//        return detailedCell
-//    }
+} // end of DetailedViewController
 
+
+//MARK:  Extensions-
+extension DetailedViewController: UICollectionViewDataSource, UICollectionViewDelegate{
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return 1
+    }
+    
+    //MARK: - detail vc identifier is DetailedViewController -
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        guard let detCell = collectionView.dequeueReusableCell(withReuseIdentifier: DetailedCell.detailCellIdentifier, for: indexPath) as? DetailedCell else{
+            fatalError()
+            
+        }
+        detCell.detailImage.image = detailedPictures
+        return detCell
+    }
 }

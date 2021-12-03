@@ -78,7 +78,7 @@ extension PixaViewController:UICollectionViewDataSource, UICollectionViewDelegat
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PixaViewCell.cellIdentifier, for: indexPath) as? PixaViewCell else{
             return PixaViewCell()
         }
-       // cell.backgroundColor = .systemGray
+        // cell.backgroundColor = .systemGray
         cell.imgNameLabel.text = hitsRESULT[indexPath.row].tags
         cell.configure(with: imageURLString)
         cell.cellPixaConfig()
@@ -97,17 +97,33 @@ extension PixaViewController:UICollectionViewDataSource, UICollectionViewDelegat
         //return 0
         return 10
     }
-    //
-    //    // when use "paging" shoud use this method insetForSectionAt
-    //
-        func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-            return UIEdgeInsets(top: 5, left: 0, bottom: 5, right: 0)
-        }
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let detailedVC = (storyboard?.instantiateViewController(withIdentifier: "DetailedViewController") as? DetailedViewController)!
-        self.navigationController?.pushViewController(detailedVC, animated: true)
+    
+    // when use "paging" shoud use this method insetForSectionAt
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+        return UIEdgeInsets(top: 5, left: 0, bottom: 5, right: 0)
     }
     
+    
+    //    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+    //        let detailedVC = (storyboard?.instantiateViewController(withIdentifier: "DetailedViewController") as? DetailedViewController)!
+    //        self.navigationController?.pushViewController(detailedVC, animated: true)
+    //    }
+    
+    //    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath){
+    //
+    //            print(" selected")
+    //        }
+    
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        var cellImage = (collectionView.cellForItem(at: indexPath) as? PixaViewCell)?.pixaImageOutlet.image
+        let vc = (storyboard?.instantiateViewController(withIdentifier: "DetailedViewController") as? DetailedViewController)!
+        vc.tags = hitsRESULT[indexPath.row].tags
+        vc.detailedPictures = cellImage
+        
+        self.navigationController?.pushViewController(vc, animated: true)
+    }
     
     
 }// end of Extensions

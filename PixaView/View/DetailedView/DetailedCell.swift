@@ -10,16 +10,25 @@ import UIKit
 class DetailedCell: UICollectionViewCell {
 
     @IBOutlet weak var detailImage: UIImageView!
-    @IBOutlet weak var detailedLabel: UILabel!
+    @IBOutlet weak var detailedTextLabel: UILabel!
     
-    static let detailIdent = "DetailedCell"
-    
+    static let detailCellIdentifier = "DetailedCell"
+   
     
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
+        
+        
+        func detailedCellConfig() -> UIImageView{
+            detailImage.clipsToBounds = true              // clip to bounds
+            detailImage.contentMode = .scaleAspectFill   // aspect fill
+            detailImage.layer.cornerRadius = 15
+            return detailImage
+        }
+        //detailImage.image = detailImage.image
     }
-
+//
 //    func configureDetailedCell(with urlString: String){
 //        guard let url = URL(string: urlString) else{
 //            return
