@@ -22,7 +22,7 @@ class DetailedViewController: UIViewController{
     //MARK: viewDidLoad-
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+    
         self.detailedCollectionView.register(UINib(nibName: DetailedCell.detailCellIdentifier, bundle: nil), forCellWithReuseIdentifier: DetailedCell.detailCellIdentifier)
         self.detailedCollectionView.dataSource = self
         self.detailedCollectionView.delegate = self
@@ -34,18 +34,17 @@ class DetailedViewController: UIViewController{
 
 //MARK:  Extensions-
 extension DetailedViewController: UICollectionViewDataSource, UICollectionViewDelegate{
+    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return 1
     }
     
-    //MARK: - detail vc identifier is DetailedViewController -
-    
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let detCell = collectionView.dequeueReusableCell(withReuseIdentifier: DetailedCell.detailCellIdentifier, for: indexPath) as? DetailedCell else{
             fatalError()
-            
         }
         detCell.detailImage.image = detailedPictures
+        detCell.detailedTextLabel.text = tags
         return detCell
     }
 }

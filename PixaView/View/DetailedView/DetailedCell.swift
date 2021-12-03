@@ -9,8 +9,11 @@ import UIKit
 
 class DetailedCell: UICollectionViewCell {
 
+    //MARK:  Outlets-
     @IBOutlet weak var detailImage: UIImageView!
     @IBOutlet weak var detailedTextLabel: UILabel!
+   //MARK: - end of Outlets
+    
     
     static let detailCellIdentifier = "DetailedCell"
    
@@ -18,35 +21,15 @@ class DetailedCell: UICollectionViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
-        
-        
+        }
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        self.detailImage.image = nil
+    }
         func detailedCellConfig() -> UIImageView{
             detailImage.clipsToBounds = true              // clip to bounds
             detailImage.contentMode = .scaleAspectFill   // aspect fill
             detailImage.layer.cornerRadius = 15
             return detailImage
         }
-        //detailImage.image = detailImage.image
     }
-//
-//    func configureDetailedCell(with urlString: String){
-//        guard let url = URL(string: urlString) else{
-//            return
-//        }
-//        let taskSetImage = URLSession.shared.dataTask(with: url){data, _, error in
-//            guard let data = data, error == nil else{
-//                return
-//            }
-//            DispatchQueue.main.async {
-//                let image = UIImage(data: data)
-//                self.detailImage.image = image
-//
-//            }
-//        }
-//        taskSetImage.resume()
-//    }
-    
-    
-    
-    
-}

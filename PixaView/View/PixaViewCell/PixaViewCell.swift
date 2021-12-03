@@ -10,7 +10,7 @@ import UIKit
 class PixaViewCell: UICollectionViewCell {
     //MARK:  Outlets -
     @IBOutlet weak var pixaImageOutlet: UIImageView!
-    @IBOutlet weak var imgNameLabel: UILabel!
+    @IBOutlet weak var TagsLabel: UILabel!
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     //MARK: - end of Outlets
     

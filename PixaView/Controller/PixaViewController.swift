@@ -79,7 +79,7 @@ extension PixaViewController:UICollectionViewDataSource, UICollectionViewDelegat
             return PixaViewCell()
         }
         // cell.backgroundColor = .systemGray
-        cell.imgNameLabel.text = hitsRESULT[indexPath.row].tags
+        cell.TagsLabel.text = hitsRESULT[indexPath.row].tags
         cell.configure(with: imageURLString)
         cell.cellPixaConfig()
         return cell
@@ -117,10 +117,13 @@ extension PixaViewController:UICollectionViewDataSource, UICollectionViewDelegat
     
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        var cellImage = (collectionView.cellForItem(at: indexPath) as? PixaViewCell)?.pixaImageOutlet.image
+        let cellImage = (collectionView.cellForItem(at: indexPath) as? PixaViewCell)?.pixaImageOutlet.image
+        let cellTags = (collectionView.cellForItem(at: indexPath) as? PixaViewCell)?.TagsLabel.text
         let vc = (storyboard?.instantiateViewController(withIdentifier: "DetailedViewController") as? DetailedViewController)!
+        
         vc.tags = hitsRESULT[indexPath.row].tags
         vc.detailedPictures = cellImage
+        vc.tags = cellTags ?? "No tags"
         
         self.navigationController?.pushViewController(vc, animated: true)
     }
