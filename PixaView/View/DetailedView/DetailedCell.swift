@@ -10,7 +10,7 @@ import UIKit
 class DetailedCell: UICollectionViewCell {
 
     //MARK:  Outlets-
-    @IBOutlet weak var detailImage: UIImageView!
+    @IBOutlet weak var detailImageOutlet: UIImageView!
     @IBOutlet weak var detailedTextLabel: UILabel!
    //MARK: - end of Outlets
     
@@ -21,15 +21,20 @@ class DetailedCell: UICollectionViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
+//        detailedCellConfig()
+        detailImageOutlet.layoutIfNeeded()
+        detailImageOutlet.layer.cornerRadius = 15
+        detailImageOutlet.clipsToBounds = true
+        detailImageOutlet.contentMode = .scaleAspectFill
         }
     override func prepareForReuse() {
         super.prepareForReuse()
-        self.detailImage.image = nil
+        self.detailImageOutlet.image = nil
     }
-        func detailedCellConfig() -> UIImageView{
-            detailImage.clipsToBounds = true              // clip to bounds
-            detailImage.contentMode = .scaleAspectFill   // aspect fill
-            detailImage.layer.cornerRadius = 15
-            return detailImage
-        }
+//        func detailedCellConfig(){
+//           // detailImageOutlet.clipsToBounds = true              // clip to bounds
+//            detailImageOutlet.contentMode = .scaleAspectFill   // aspect fill
+//            detailImageOutlet.layer.cornerRadius = 15
+//
+//        }
     }
