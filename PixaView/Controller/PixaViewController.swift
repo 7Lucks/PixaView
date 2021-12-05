@@ -58,47 +58,6 @@ class PixaViewController: UIViewController {
         }
         task.resume()
     } // end of fetchPics
-    //MARK: - test method with device orientation
-//    
-//    var collectionViewFLowLayout: UICollectionViewFlowLayout!
-//    
-//    override func viewWillLayoutSubviews() {
-//        super .viewWillLayoutSubviews()
-////        updateCollectionViewItemSizes()
-//        collectionView.collectionViewLayout.invalidateLayout()
-//           collectionView.layoutIfNeeded()
-//    }
-//    
-//    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
-//        coordinator.animate(alongsideTransition: {(_)in
-//        }, completion: nil)
-//        let numberOfItemsInRow:CGFloat = 3
-//        let lineSpacing: CGFloat = 5
-//        let interItemSpacing:CGFloat = 5
-//        
-//        let width = (collectionView.frame.width - (numberOfItemsInRow - 1) * interItemSpacing) / numberOfItemsInRow
-//        let height = width
-//        collectionViewFLowLayout = UICollectionViewFlowLayout()
-//        collectionView.setCollectionViewLayout(collectionViewFLowLayout, animated: true)
-//        collectionViewFLowLayout.itemSize = CGSize(width: width, height: height)
-//        collectionViewFLowLayout.sectionInset = UIEdgeInsets.zero
-//        collectionViewFLowLayout.scrollDirection = .vertical
-//        collectionViewFLowLayout.minimumLineSpacing = lineSpacing
-//        collectionViewFLowLayout.minimumLineSpacing = interItemSpacing
-//        
-//        super.viewWillTransition(to: size, with: coordinator)
-//    }
-    
-//    private func setupCollectionViewLayout(){
-//
-//    }
-//    func updateCollectionViewItemSizes(){
-//
-//    }
-    
-    
-    
-    //MARK: - end of  test method with device orientation
     
     
     //MARK: - End of Methods

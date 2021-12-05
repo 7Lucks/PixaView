@@ -17,7 +17,7 @@ class DetailedViewController: UIViewController{
    //MARK: Properties-
     var detailedPictures: UIImage?
     var tags = ""
-
+//let testShared = DetailedViewController()
     //MARK: viewDidLoad-
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -26,8 +26,20 @@ class DetailedViewController: UIViewController{
         self.detailedCollectionView.dataSource = self
         self.detailedCollectionView.delegate = self
     }
+    //MARK:  Actions-
+//share button
+    @IBAction func shareButton(_ sender: UIButton) {
+    
+        let item:[Any] = [detailedPictures!]
+        let  activity = UIActivityViewController(activityItems: item, applicationActivities: nil)
+        
+        self.present(activity, animated: true, completion: nil)
+        
+    }
+    //    //MARK: - end of Actions
+    
+    
 } // end of DetailedViewController
-
 
 //MARK:  Extensions-
 extension DetailedViewController: UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout{
