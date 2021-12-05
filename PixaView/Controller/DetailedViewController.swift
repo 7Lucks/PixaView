@@ -28,11 +28,13 @@ class DetailedViewController: UIViewController{
     }
     //MARK:  Actions-
 //share button
+        
     @IBAction func shareButton(_ sender: UIButton) {
     
         let item:[Any] = [detailedPictures!]
         let  activity = UIActivityViewController(activityItems: item, applicationActivities: nil)
-        
+        //exclusion to activities if needed
+        //activity.excludedActivityTypes = [.message, .airDrop] // prohibit to use message, airdrop
         self.present(activity, animated: true, completion: nil)
         
     }
@@ -50,6 +52,20 @@ extension DetailedViewController: UICollectionViewDataSource, UICollectionViewDe
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return CGSize(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height )}
 
+    override func viewWillTransition(to size: CGSize,
+    with coordinator: UIViewControllerTransitionCoordinator) {
+    super.viewWillTransition(to:size, with: coordinator)
+    let before = self.view.window?.windowScene?.interfaceOrientation
+    coordinator.animate(alongsideTransition: nil) { _ in
+    let after = self.view.window?.windowScene?.interfaceOrientation
+    if before != after {
+    // we rotated
+    }
+    }
+    }
+    
+    
+    
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let detCell = collectionView.dequeueReusableCell(withReuseIdentifier: DetailedCell.detailCellIdentifier, for: indexPath) as? DetailedCell else{
             fatalError()
