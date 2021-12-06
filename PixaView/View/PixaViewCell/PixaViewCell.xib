@@ -45,9 +45,9 @@
             </constraints>
             <size key="customSize" width="461" height="355"/>
             <connections>
-                <outlet property="TagsLabel" destination="A83-cU-Zbz" id="D5r-8j-Qma"/>
                 <outlet property="activityIndicator" destination="Col-Bl-sUl" id="WN2-ku-mXS"/>
                 <outlet property="pixaImageOutlet" destination="Mer-3i-z5V" id="PaX-qb-jth"/>
+                <outlet property="tagsLabelOutlet" destination="A83-cU-Zbz" id="D5r-8j-Qma"/>
             </connections>
             <point key="canvasLocation" x="168.84057971014494" y="113.50446428571428"/>
         </collectionViewCell>

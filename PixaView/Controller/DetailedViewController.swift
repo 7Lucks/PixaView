@@ -17,6 +17,7 @@ class DetailedViewController: UIViewController{
    //MARK: Properties-
     var detailedPictures: UIImage?
     var tags = ""
+    var urlData: String?
 //let testShared = DetailedViewController()
     //MARK: viewDidLoad-
     override func viewDidLoad() {
@@ -26,6 +27,7 @@ class DetailedViewController: UIViewController{
         self.detailedCollectionView.dataSource = self
         self.detailedCollectionView.delegate = self
     }
+    
     //MARK:  Actions-
 //share button
         
@@ -52,17 +54,17 @@ extension DetailedViewController: UICollectionViewDataSource, UICollectionViewDe
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return CGSize(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height )}
 
-    override func viewWillTransition(to size: CGSize,
-    with coordinator: UIViewControllerTransitionCoordinator) {
-    super.viewWillTransition(to:size, with: coordinator)
-    let before = self.view.window?.windowScene?.interfaceOrientation
-    coordinator.animate(alongsideTransition: nil) { _ in
-    let after = self.view.window?.windowScene?.interfaceOrientation
-    if before != after {
-    // we rotated
-    }
-    }
-    }
+//    override func viewWillTransition(to size: CGSize,
+//    with coordinator: UIViewControllerTransitionCoordinator) {
+//    super.viewWillTransition(to:size, with: coordinator)
+//    let before = self.view.window?.windowScene?.interfaceOrientation
+//    coordinator.animate(alongsideTransition: nil) { _ in
+//    let after = self.view.window?.windowScene?.interfaceOrientation
+//    if before != after {
+//    // we rotated
+//    }
+//    }
+//    }
     
     
     

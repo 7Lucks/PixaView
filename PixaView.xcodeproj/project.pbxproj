@@ -11,6 +11,7 @@
 		6C1A643B2752DB820054A27B /* PixaViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C1A64392752DB820054A27B /* PixaViewCell.swift */; };
 		6C1A643C2752DB820054A27B /* PixaViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6C1A643A2752DB820054A27B /* PixaViewCell.xib */; };
 		6C1A64402752E8990054A27B /* ApiResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C1A643F2752E8990054A27B /* ApiResponse.swift */; };
+		6C1B2AF0275D56E3001D110C /* PopularSortButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C1B2AEF275D56E3001D110C /* PopularSortButton.swift */; };
 		6CB45E9027591C7600D38D68 /* DetailedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CB45E8F27591C7600D38D68 /* DetailedViewController.swift */; };
 		6CB45E9327591F5000D38D68 /* DetailedCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CB45E9127591F5000D38D68 /* DetailedCell.swift */; };
 		6CB45E9427591F5000D38D68 /* DetailedCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6CB45E9227591F5000D38D68 /* DetailedCell.xib */; };
@@ -46,6 +47,7 @@
 		6C1A64392752DB820054A27B /* PixaViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PixaViewCell.swift; sourceTree = "<group>"; };
 		6C1A643A2752DB820054A27B /* PixaViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PixaViewCell.xib; sourceTree = "<group>"; };
 		6C1A643F2752E8990054A27B /* ApiResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiResponse.swift; sourceTree = "<group>"; };
+		6C1B2AEF275D56E3001D110C /* PopularSortButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopularSortButton.swift; sourceTree = "<group>"; };
 		6CB45E8F27591C7600D38D68 /* DetailedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailedViewController.swift; sourceTree = "<group>"; };
 		6CB45E9127591F5000D38D68 /* DetailedCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailedCell.swift; sourceTree = "<group>"; };
 		6CB45E9227591F5000D38D68 /* DetailedCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = DetailedCell.xib; sourceTree = "<group>"; };
@@ -100,6 +102,7 @@
 		6C1A64352752DA710054A27B /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				6C1B2AEF275D56E3001D110C /* PopularSortButton.swift */,
 				6C1A64322752A6FD0054A27B /* PixaViewController.swift */,
 				6CB45E8F27591C7600D38D68 /* DetailedViewController.swift */,
 			);
@@ -319,6 +322,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				6C1A64332752A6FD0054A27B /* PixaViewController.swift in Sources */,
+				6C1B2AF0275D56E3001D110C /* PopularSortButton.swift in Sources */,
 				6CEAB8242751689E008B0678 /* AppDelegate.swift in Sources */,
 				6CB45E9027591C7600D38D68 /* DetailedViewController.swift in Sources */,
 				6C1A643B2752DB820054A27B /* PixaViewCell.swift in Sources */,

@@ -10,12 +10,14 @@ import UIKit
 class PixaViewController: UIViewController {
     //MARK: Outlets -
     @IBOutlet weak var collectionView: UICollectionView!
+    @IBOutlet weak var sortButtonOutlet: UIButton!
     //MARK: - end of Outlets
     
     //MARK:  Properties -
-    let urlStr = "https://pixabay.com/api/?key=16834549-9bf1a2a9f7bfa54e36404be81&q=audi&per_page=100&image_type=photo"  // https://pixabay.com/api/
+//    let urlStr = "https://pixabay.com/api/?key=\(myKeyId)&q=audi&per_page=100&image_type=photo"
+//
+   let urlStr = "https://pixabay.com/api/?key=16834549-9bf1a2a9f7bfa54e36404be81&q=audi&per_page=100&image_type=photo" // https://pixabay.com/api/
     var hitsRESULT: [Hits] = [] //array from json
-    
     //MARK: - end of Properties
     
     //MARK:  viewDidLoad -
@@ -25,8 +27,22 @@ class PixaViewController: UIViewController {
         self.collectionView.dataSource = self //the cell need to understand where to get the filling from. add protocol to extension - UICollectionViewDataSource
         self.collectionView.delegate = self //delegate with collectionView. Subscribe to UICollectionViewDelegate as delegate
         fetchPics()
+        droppedMunu()
     }
     //MARK: - End of viewDidLoad
+    
+    //MARK:  dropped button-
+    
+ func droppedMunu(){
+    let droppedMenu = UIMenu(title:"", children: [
+        UIAction(title: "Popular", image: UIImage(systemName: "tray.full"), handler: {(_) in}),
+        UIAction(title: "Lastest", image: UIImage(systemName: "star.circle"), handler: {(_) in})
+        ])
+    self.sortButtonOutlet.menu = droppedMenu
+    self.sortButtonOutlet.showsMenuAsPrimaryAction = true
+    }
+
+    //MARK: - end of dreopped button
     
     //MARK: Methods -
     func fetchPics(){
@@ -34,7 +50,6 @@ class PixaViewController: UIViewController {
         
         let task = URLSession.shared.dataTask(with: url){[weak self] data, _, error in
             guard let data = data, error == nil else {
-                //let image = UIImage(data: data!)
                 return
             }
             // print("have some data")
@@ -49,7 +64,6 @@ class PixaViewController: UIViewController {
                 DispatchQueue.main.async {
                     self?.hitsRESULT = jsonResults.hits
                     self?.collectionView.reloadData() // reload data to cell
-                    //self?.indicator.activityIndicator.stopAnimating()  // stop animating of activity indicator when image is ready
                 }// to main que
                 
             }catch{
@@ -80,7 +94,7 @@ extension PixaViewController:UICollectionViewDataSource, UICollectionViewDelegat
             return PixaViewCell()
         }
         // cell.backgroundColor = .systemGray
-        cell.TagsLabel.text = hitsRESULT[indexPath.row].tags
+        cell.tagsLabelOutlet.text = hitsRESULT[indexPath.row].tags
         cell.configure(with: imageURLString)
         cell.cellPixaConfig()
         return cell
@@ -120,7 +134,7 @@ extension PixaViewController:UICollectionViewDataSource, UICollectionViewDelegat
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         //MARK: - какие данные хотим передать
         let cellImage = (collectionView.cellForItem(at: indexPath) as? PixaViewCell)?.pixaImageOutlet.image
-        let cellTags = (collectionView.cellForItem(at: indexPath) as? PixaViewCell)?.TagsLabel.text
+        let cellTags = (collectionView.cellForItem(at: indexPath) as? PixaViewCell)?.tagsLabelOutlet.text
         
         let vc = (storyboard?.instantiateViewController(withIdentifier: "DetailedViewController") as? DetailedViewController)!
         
