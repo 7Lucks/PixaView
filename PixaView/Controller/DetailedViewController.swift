@@ -9,7 +9,6 @@ import UIKit
 
 class DetailedViewController: UIViewController{
     
-    
     //MARK: Outlets-
   
     @IBOutlet weak var detailedCollectionView: UICollectionView!
@@ -18,7 +17,8 @@ class DetailedViewController: UIViewController{
     var detailedPictures: UIImage?
     var tags = ""
     var urlData: String?
-//let testShared = DetailedViewController()
+    
+    
     //MARK: viewDidLoad-
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -41,8 +41,6 @@ class DetailedViewController: UIViewController{
         
     }
     //    //MARK: - end of Actions
-    
-    
 } // end of DetailedViewController
 
 //MARK:  Extensions-

@@ -16,8 +16,9 @@ class PixaViewController: UIViewController {
     //MARK:  Properties -
 //    let urlStr = "https://pixabay.com/api/?key=\(myKeyId)&q=audi&per_page=100&image_type=photo"
 //
-   let urlStr = "https://pixabay.com/api/?key=16834549-9bf1a2a9f7bfa54e36404be81&q=audi&per_page=100&image_type=photo" // https://pixabay.com/api/
+    let urlStr = "https://pixabay.com/api/?key=16834549-9bf1a2a9f7bfa54e36404be81&q=audi&per_page=100&image_type=photo" // https://pixabay.com/api/
     var hitsRESULT: [Hits] = [] //array from json
+    var popularLastetstButton = PopularLastestButton()
     //MARK: - end of Properties
     
     //MARK:  viewDidLoad -
@@ -34,27 +35,44 @@ class PixaViewController: UIViewController {
     //MARK:  dropped button-
     
  func droppedMunu(){
-    let droppedMenu = UIMenu(title:"", children: [
-        UIAction(title: "Popular", image: UIImage(systemName: "tray.full"), handler: {(_) in}),
-        UIAction(title: "Lastest", image: UIImage(systemName: "star.circle"), handler: {(_) in})
+    let droppedMenu = UIMenu(title:"PixaSort", children: [
+        UIAction(title: "Popular", image: UIImage(systemName: "tray.full"), handler: {(_) in
+            self.popularLastetstButton.pixaGallerySort(1, order: .popular )
+            self.didSelectSortingStrategy(order: .popular)
+           // print("Popular tapped")
+        }),
+        UIAction(title: "Lastest", image: UIImage(systemName: "star.circle"), handler: {(_) in
+            self.popularLastetstButton.pixaGallerySort(1, order: .latest)
+            self.didSelectSortingStrategy(order: .latest)
+          //  print("Lastest tapped")
+        })
         ])
     self.sortButtonOutlet.menu = droppedMenu
     self.sortButtonOutlet.showsMenuAsPrimaryAction = true
+    
     }
 
-    //MARK: - end of dreopped button
-    
-    //MARK: Methods -
-    func fetchPics(){
-        guard let url = URL(string: urlStr) else{return}
+    func didSelectSortingStrategy( order: PopularLastestButton.Order){
+        var urlString = ""
+        switch order {
+        case .latest:
+            urlString = "https://pixabay.com/api/?key=\(myKeyId)&editors_choice=true&per_page=150&order=latest"
+        case .popular:
+            urlString = "https://pixabay.com/api/?key=\(myKeyId)&editors_choice=true&per_page=150&order=popular"
+            
+        } //end of swith
         
-        let task = URLSession.shared.dataTask(with: url){[weak self] data, _, error in
+        
+        changedUrl(newURL: URL(string: urlString)!)
+    }
+    
+    func changedUrl(newURL: URL){
+        
+        let task = URLSession.shared.dataTask(with: newURL){[weak self] data, _, error in
             guard let data = data, error == nil else {
                 return
             }
-            // print("have some data")
             
-            //do catch for JSON decoder
             do{
                 let jsonResults = try JSONDecoder().decode(ImageAPIResponse.self, from: data)
                 
@@ -72,7 +90,38 @@ class PixaViewController: UIViewController {
         }
         task.resume()
     } // end of fetchPics
+            
+        
     
+    
+    
+    //MARK: - end of dreopped button
+    
+    //MARK: Methods -
+    func fetchPics(){
+        guard let url = URL(string: urlStr) else{return}
+        
+        let task = URLSession.shared.dataTask(with: url){[weak self] data, _, error in
+            guard let data = data, error == nil else {
+                return
+            }
+            //do catch for JSON decoder
+            do{
+                let jsonResults = try JSONDecoder().decode(ImageAPIResponse.self, from: data)
+                
+                //                              print(jsonResults.hits.count)  //by default is 20
+                //                              print(response)
+                
+                DispatchQueue.main.async {
+                    self?.hitsRESULT = jsonResults.hits
+                    self?.collectionView.reloadData() // reload data to cell
+                }// to main que
+            }catch{
+                print("Here is some ERR - \(error)")
+            }
+        }
+        task.resume()
+    } // end of fetchPics
     
     //MARK: - End of Methods
     
@@ -144,8 +193,7 @@ extension PixaViewController:UICollectionViewDataSource, UICollectionViewDelegat
         
         self.navigationController?.pushViewController(vc, animated: true)
     }
-    
-    
+
 }// end of Extensions
 
 
