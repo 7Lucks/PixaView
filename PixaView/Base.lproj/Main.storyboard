@@ -9,6 +9,21 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
+        <!--FilterViewController-->
+        <scene sceneID="rTg-9S-77A">
+            <objects>
+                <viewController storyboardIdentifier="FilterViewControllerID" title="FilterViewController" id="qHK-lg-MNB" customClass="FilterViewController" customModule="PixaView" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="OSa-py-nRf">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <viewLayoutGuide key="safeArea" id="RHc-qz-Q2u"/>
+                        <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Fn7-V7-h6B" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1054" y="-839"/>
+        </scene>
         <!--PixaView-->
         <scene sceneID="QD2-7u-WRA">
             <objects>
@@ -39,6 +54,18 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="PixaView" id="oKs-eu-c0w">
+                        <barButtonItem key="leftBarButtonItem" style="plain" id="V2N-v5-Xmj">
+                            <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" id="1aZ-G9-JbH">
+                                <rect key="frame" x="20" y="5" width="92" height="34.333333333333336"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="tintColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" image="line.3.horizontal.decrease.circle" catalog="system" title="Filter"/>
+                                <connections>
+                                    <action selector="filterButtonDidTap:" destination="RI5-HY-qXl" eventType="touchUpInside" id="S0F-rp-aW2"/>
+                                </connections>
+                            </button>
+                        </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" style="plain" id="GyJ-lO-6cM">
                             <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" id="den-L7-Cpb">
                                 <rect key="frame" x="302" y="5" width="92" height="34.333333333333336"/>
@@ -59,7 +86,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="IhP-Yd-CVv" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1149" y="-167"/>
+            <point key="canvasLocation" x="1055" y="-167"/>
         </scene>
         <!--Detailed View Controller-->
         <scene sceneID="MMi-FV-sdv">
@@ -112,7 +139,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="h83-Rp-0rj" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1971.0144927536232" y="-167.41071428571428"/>
+            <point key="canvasLocation" x="1888" y="-167"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="Azk-Iy-oEp">
@@ -135,6 +162,7 @@
     </scenes>
     <resources>
         <image name="arrow.up.arrow.down.circle" catalog="system" width="128" height="121"/>
+        <image name="line.3.horizontal.decrease.circle" catalog="system" width="128" height="121"/>
         <image name="square.and.arrow.up.on.square" catalog="system" width="117" height="128"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>

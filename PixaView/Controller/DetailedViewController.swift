@@ -26,6 +26,7 @@ class DetailedViewController: UIViewController{
         self.detailedCollectionView.register(UINib(nibName: DetailedCell.detailCellIdentifier, bundle: nil), forCellWithReuseIdentifier: DetailedCell.detailCellIdentifier)
         self.detailedCollectionView.dataSource = self
         self.detailedCollectionView.delegate = self
+     
     }
     
     //MARK:  Actions-
@@ -51,19 +52,21 @@ extension DetailedViewController: UICollectionViewDataSource, UICollectionViewDe
     }
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return CGSize(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height )}
+    
+    
 
 //    override func viewWillTransition(to size: CGSize,
-//    with coordinator: UIViewControllerTransitionCoordinator) {
-//    super.viewWillTransition(to:size, with: coordinator)
-//    let before = self.view.window?.windowScene?.interfaceOrientation
-//    coordinator.animate(alongsideTransition: nil) { _ in
-//    let after = self.view.window?.windowScene?.interfaceOrientation
-//    if before != after {
-//    // we rotated
+//                                     with coordinator: UIViewControllerTransitionCoordinator) {
+//        super.viewWillTransition(to:size, with: coordinator)
+//        let before = self.view.window?.windowScene?.interfaceOrientation
+//        coordinator.animate(alongsideTransition: nil) { _ in
+//            let after = self.view.window?.windowScene?.interfaceOrientation
+//            if before != after {
+//                // we rotated
+//            }
+//        }
 //    }
-//    }
-//    }
-    
+//
     
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {

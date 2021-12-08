@@ -35,19 +35,17 @@ class PixaViewController: UIViewController {
     //MARK:  dropped button-
     
  func droppedMunu(){
-    let droppedMenu = UIMenu(title:"PixaSort", children: [
+    let droppedSortMenu = UIMenu(title:"PixaSort", children: [
         UIAction(title: "Popular", image: UIImage(systemName: "tray.full"), handler: {(_) in
             self.popularLastetstButton.pixaGallerySort(1, order: .popular )
             self.didSelectSortingStrategy(order: .popular)
-           // print("Popular tapped")
         }),
         UIAction(title: "Lastest", image: UIImage(systemName: "star.circle"), handler: {(_) in
             self.popularLastetstButton.pixaGallerySort(1, order: .latest)
             self.didSelectSortingStrategy(order: .latest)
-          //  print("Lastest tapped")
         })
         ])
-    self.sortButtonOutlet.menu = droppedMenu
+    self.sortButtonOutlet.menu = droppedSortMenu
     self.sortButtonOutlet.showsMenuAsPrimaryAction = true
     
     }
@@ -61,10 +59,9 @@ class PixaViewController: UIViewController {
             urlString = "https://pixabay.com/api/?key=\(myKeyId)&editors_choice=true&per_page=150&order=popular"
             
         } //end of swith
-        
-        
         changedUrl(newURL: URL(string: urlString)!)
     }
+    
     
     func changedUrl(newURL: URL){
         
@@ -75,27 +72,24 @@ class PixaViewController: UIViewController {
             
             do{
                 let jsonResults = try JSONDecoder().decode(ImageAPIResponse.self, from: data)
-                
-                //                               print(jsonResults.hits.count)  //by default is 20
-                //                              print(response)
-                
                 DispatchQueue.main.async {
                     self?.hitsRESULT = jsonResults.hits
                     self?.collectionView.reloadData() // reload data to cell
                 }// to main que
-                
             }catch{
                 print("Here is some ERR - \(error)")
             }
         }
         task.resume()
     } // end of fetchPics
-            
-        
-    
-    
-    
+
     //MARK: - end of dreopped button
+ //MARK: - actions
+    @IBAction func filterButtonDidTap(_ sender: UIButton) {
+        guard let filterVC = storyboard?.instantiateViewController(withIdentifier: "FilterViewControllerID") else{return}
+        present(filterVC, animated: true, completion: nil)
+    }
+    
     
     //MARK: Methods -
     func fetchPics(){
