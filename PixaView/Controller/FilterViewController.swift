@@ -32,15 +32,18 @@ enum Categories: String, CaseIterable{
 
 
 class FilterViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
-   
+    
+   //MARK:  Properties-
     let tableView = UITableView()
     let filterCategory:[Categories] = Categories.allCases
     var holder: PixaViewController?
-
+//MARK: - end of Properties
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.addSubview(tableView)
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
+        tableView.register(TableHeader.self, forHeaderFooterViewReuseIdentifier: "header")
         
         tableView.delegate = self
         tableView.dataSource = self
@@ -51,6 +54,9 @@ class FilterViewController: UIViewController, UITableViewDelegate, UITableViewDa
         tableView.frame = view.bounds
     }
     
+    
+    
+    //MARK: teble methods -
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return filterCategory.count
     }
@@ -62,9 +68,56 @@ class FilterViewController: UIViewController, UITableViewDelegate, UITableViewDa
         return cell
     }
     
+    // select row
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         holder?.enumValue = filterCategory[indexPath.row].rawValue
         holder?.didSelectCategory(category:[filterCategory[indexPath.row]])
     }
     
+    // viewForHeader
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let header = tableView.dequeueReusableHeaderFooterView(withIdentifier: "header")
+        return header
+    }
+    
 }// end of FilterViewController
+
+//MARK: - HEADER and FOOTER for the table
+
+class TableHeader: UITableViewHeaderFooterView{
+    static let identifier = "TableHeader"
+    
+    private let label: UILabel = {
+    let label = UILabel()
+    label.text = "Select Filter Sort"
+        label.font = .systemFont(ofSize: 30, weight: .bold)
+        label.textAlignment = .center
+    return label
+    }()
+    
+    override init(reuseIdentifier: String?) {
+        super.init(reuseIdentifier: reuseIdentifier)
+        contentView.addSubview(label)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        label.sizeToFit()
+        label.frame = CGRect(x: 0,
+                             y: contentView.frame.size.height - 10 - label.frame.size.height,
+                             width: contentView.frame.size.width,
+                             height: contentView.frame.size.height)
+    }
+    
+    
+}
+
+
+class TableFooter: UITableViewHeaderFooterView{
+    static let identifier = "TableFooter"
+    
+}
