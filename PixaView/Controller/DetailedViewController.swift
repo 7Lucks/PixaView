@@ -8,7 +8,7 @@
 import UIKit
 
 class DetailedViewController: UIViewController{
-    
+
     //MARK: Outlets-
   
     @IBOutlet weak var detailedCollectionView: UICollectionView!
@@ -17,6 +17,7 @@ class DetailedViewController: UIViewController{
     var detailedPictures: UIImage?
     var tags = ""
     var urlData: String?
+
     
     
     //MARK: viewDidLoad-

@@ -60,20 +60,20 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="tintColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="plain" image="line.3.horizontal.decrease.circle" catalog="system" title="Filter"/>
+                                <buttonConfiguration key="configuration" style="plain" image="square.filled.on.square" catalog="system" title="FIlter"/>
                                 <connections>
                                     <action selector="filterButtonDidTap:" destination="RI5-HY-qXl" eventType="touchUpInside" id="S0F-rp-aW2"/>
                                 </connections>
                             </button>
                         </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" style="plain" id="GyJ-lO-6cM">
-                            <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" id="den-L7-Cpb">
-                                <rect key="frame" x="302" y="5" width="92" height="34.333333333333336"/>
+                            <button key="customView" opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" id="den-L7-Cpb">
+                                <rect key="frame" x="302" y="0.0" width="92" height="44"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="tintColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="plain" title="" subtitle=" Sort">
-                                    <imageReference key="image" image="arrow.up.arrow.down.circle" catalog="system" symbolScale="large"/>
+                                    <imageReference key="image" image="rectangle.3.group" catalog="system" symbolScale="large"/>
                                 </buttonConfiguration>
                             </button>
                         </barButtonItem>
@@ -161,9 +161,9 @@
         </scene>
     </scenes>
     <resources>
-        <image name="arrow.up.arrow.down.circle" catalog="system" width="128" height="121"/>
-        <image name="line.3.horizontal.decrease.circle" catalog="system" width="128" height="121"/>
+        <image name="rectangle.3.group" catalog="system" width="128" height="81"/>
         <image name="square.and.arrow.up.on.square" catalog="system" width="117" height="128"/>
+        <image name="square.filled.on.square" catalog="system" width="128" height="113"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

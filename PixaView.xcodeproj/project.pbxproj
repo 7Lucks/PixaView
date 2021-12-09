@@ -105,8 +105,8 @@
 			isa = PBXGroup;
 			children = (
 				6C1B2AEF275D56E3001D110C /* PopularSortButton.swift */,
-				6C1A64322752A6FD0054A27B /* PixaViewController.swift */,
 				6CB45E8F27591C7600D38D68 /* DetailedViewController.swift */,
+				6C1A64322752A6FD0054A27B /* PixaViewController.swift */,
 				6C74E2CD2761129800671C0C /* FilterViewController.swift */,
 			);
 			path = Controller;

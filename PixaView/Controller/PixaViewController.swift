@@ -11,7 +11,7 @@ class PixaViewController: UIViewController {
     //MARK: Outlets -
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var sortButtonOutlet: UIButton!
-    //MARK: - end of Outlets
+        //MARK: - end of Outlets
     
     //MARK:  Properties -
 //    let urlStr = "https://pixabay.com/api/?key=\(myKeyId)&q=audi&per_page=100&image_type=photo"
@@ -19,6 +19,8 @@ class PixaViewController: UIViewController {
     let urlStr = "https://pixabay.com/api/?key=16834549-9bf1a2a9f7bfa54e36404be81&q=audi&per_page=100&image_type=photo" // https://pixabay.com/api/
     var hitsRESULT: [Hits] = [] //array from json
     var popularLastetstButton = PopularLastestButton()
+    var enumValue = ""
+    
     //MARK: - end of Properties
     
     //MARK:  viewDidLoad -
@@ -63,6 +65,13 @@ class PixaViewController: UIViewController {
     }
     
     
+    func didSelectCategory(category: [Categories]){
+    
+        
+        
+    }
+    
+    
     func changedUrl(newURL: URL){
         
         let task = URLSession.shared.dataTask(with: newURL){[weak self] data, _, error in
@@ -88,6 +97,9 @@ class PixaViewController: UIViewController {
     @IBAction func filterButtonDidTap(_ sender: UIButton) {
         guard let filterVC = storyboard?.instantiateViewController(withIdentifier: "FilterViewControllerID") else{return}
         present(filterVC, animated: true, completion: nil)
+        let filterViewController = filterVC as? FilterViewController
+        filterViewController?.holder = self
+        
     }
     
     
@@ -116,7 +128,7 @@ class PixaViewController: UIViewController {
         }
         task.resume()
     } // end of fetchPics
-    
+
     //MARK: - End of Methods
     
 } // end of PixaViewController class
