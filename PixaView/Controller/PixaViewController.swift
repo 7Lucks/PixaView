@@ -16,10 +16,11 @@ class PixaViewController: UIViewController {
     //MARK:  Properties -
 //    let urlStr = "https://pixabay.com/api/?key=\(myKeyId)&q=audi&per_page=100&image_type=photo"
 //
-    let urlStr = "https://pixabay.com/api/?key=16834549-9bf1a2a9f7bfa54e36404be81&q=audi&per_page=100&image_type=photo" // https://pixabay.com/api/
+    let urlStr = "https://pixabay.com/api/?key=16834549-9bf1a2a9f7bfa54e36404be81&q=china&per_page=100&image_type=photo" // https://pixabay.com/api/
     var hitsRESULT: [Hits] = [] //array from json
     var popularLastetstButton = PopularLastestButton()
     var enumValue = ""
+    
     
     //MARK: - end of Properties
     
@@ -67,8 +68,10 @@ class PixaViewController: UIViewController {
     
     func didSelectCategory(category: [Categories]){
     
-        
-        
+        let filtredURL = "https://pixabay.com/api/?key=16834549-9bf1a2a9f7bfa54e36404be81&q=\(enumValue)&per_page=100&image_type=photo"
+        print("selected \(enumValue) category")
+        changedUrl(newURL: URL(string: filtredURL)!)
+
     }
     
     

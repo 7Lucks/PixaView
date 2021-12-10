@@ -27,26 +27,30 @@ enum Categories: String, CaseIterable{
     case travel
     case buildings
     case business
-    case music 
+    case music
 }
 
 
 class FilterViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
-   //MARK:  Properties-
+    //MARK:  Properties-
     let tableView = UITableView()
     let filterCategory:[Categories] = Categories.allCases
     var holder: PixaViewController?
-//MARK: - end of Properties
+    //MARK: - end of Properties
     
     override func viewDidLoad() {
         super.viewDidLoad()
         view.addSubview(tableView)
-    title = "Pixa View Filters"
-        navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(cancelButtonFilterVC))
+        title = "Pixa View Filters"
+        //cancel button in nav bar
+        navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Search", style: .plain, target: self, action: #selector(cancelButtonFilterVC))
+        //dome button in nav bar
+            //navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(doneButtonFilterVC))
+        
         
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
-tableView.register(TableHeader.self, forHeaderFooterViewReuseIdentifier: "header")
+        tableView.register(TableHeader.self, forHeaderFooterViewReuseIdentifier: "header")
         
         tableView.delegate = self
         tableView.dataSource = self
@@ -57,11 +61,14 @@ tableView.register(TableHeader.self, forHeaderFooterViewReuseIdentifier: "header
         tableView.frame = view.bounds
     }
     
+    //cancel button nav bar method
     @objc private func cancelButtonFilterVC(){
         dismiss(animated: true, completion: nil)
-        
     }
-    
+//    //done button nav bar method
+//    @objc private func  doneButtonFilterVC(){
+//        self.navigationController?.popViewController(animated: true)
+//    }
     
     
     //MARK: teble methods -
@@ -72,14 +79,25 @@ tableView.register(TableHeader.self, forHeaderFooterViewReuseIdentifier: "header
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
         cell.textLabel?.text = filterCategory[indexPath.row].rawValue.capitalized
-
+        
         return cell
     }
     
-    // select row
+    // select rows
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        //checkmarks in tableview
+        if tableView.cellForRow(at: indexPath)?.accessoryType == .checkmark{
+            tableView.cellForRow(at: indexPath)?.accessoryType = .none
+        }else {
+            tableView.cellForRow(at: indexPath)?.accessoryType = .checkmark
+        }
+        //animation for selection
+        tableView.deselectRow(at: indexPath, animated: true)
+        
         holder?.enumValue = filterCategory[indexPath.row].rawValue
         holder?.didSelectCategory(category:[filterCategory[indexPath.row]])
+        
     }
     
     // viewForHeader
@@ -94,52 +112,28 @@ tableView.register(TableHeader.self, forHeaderFooterViewReuseIdentifier: "header
 
 class TableHeader: UITableViewHeaderFooterView{
     static let identifier = "TableHeader"
-
+    
     private let label: UILabel = {
-    let label = UILabel()
-    label.text = "Select Image Filter(s)"
+        let label = UILabel()
+        label.text = "Select Image Filter(s)"
         label.font = .systemFont(ofSize: 30, weight: .bold)
         label.textAlignment = .center
         label.textColor = .systemGray
-    
-    return label
+        
+        return label
     }()
-
-    private let cancelButton = UIButton()
     
-    
-//    private let headerDoneButton: UIButton = {
-//        let doneButton = UIButton()
-//        doneButton.setTitle("Done", for: .normal)
-//        doneButton.backgroundColor = .systemMint
-//        doneButton.frame = CGRect(x: 5, y: 0, width: 70, height: 30)
-//        doneButton.layer.cornerRadius = 15
-//
-//        return doneButton
-//    }()
-
-//    private let headerCancelButton: UIButton = {
-//        let cancelButton = UIButton()
-//        cancelButton.setTitle("Cancel", for: .normal)
-//        cancelButton.backgroundColor = .systemRed
-//        cancelButton.frame = CGRect(x: 340, y: 0, width: 70, height: 30)
-//        cancelButton.layer.cornerRadius = 15
-//
-//        return cancelButton
-//    }()
-
-
     override init(reuseIdentifier: String?) {
         super.init(reuseIdentifier: reuseIdentifier)
         contentView.addSubview(label)
-//        contentView.addSubview(headerDoneButton)
-//        contentView.addSubview(headerCancelButton)
+        //        contentView.addSubview(headerDoneButton)
+        //        contentView.addSubview(headerCancelButton)
     }
-
+    
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-
+    
     override func layoutSubviews() {
         super.layoutSubviews()
         label.sizeToFit()
@@ -147,17 +141,11 @@ class TableHeader: UITableViewHeaderFooterView{
                              y: contentView.frame.size.height - 10 - label.frame.size.height,
                              width: contentView.frame.size.width,
                              height: contentView.frame.size.height)
-
-//        headerDoneButton.sizeToFit()
-//        headerCancelButton.sizeToFit()
-
     }
-
-
 }
 
 
 class TableFooter: UITableViewHeaderFooterView{
     static let identifier = "TableFooter"
-
+        
 }
