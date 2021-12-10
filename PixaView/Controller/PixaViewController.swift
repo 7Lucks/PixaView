@@ -96,10 +96,14 @@ class PixaViewController: UIViewController {
  //MARK: - actions
     @IBAction func filterButtonDidTap(_ sender: UIButton) {
         guard let filterVC = storyboard?.instantiateViewController(withIdentifier: "FilterViewControllerID") else{return}
-        present(filterVC, animated: true, completion: nil)
+        //present(filterVC, animated: true, completion: nil)
+        
         let filterViewController = filterVC as? FilterViewController
         filterViewController?.holder = self
         
+        let navVC = UINavigationController(rootViewController: filterVC)
+        present(navVC, animated: true, completion: nil)
+
     }
     
     
