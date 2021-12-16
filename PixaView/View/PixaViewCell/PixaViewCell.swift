@@ -6,6 +6,8 @@
 //
 
 import UIKit
+import TestFramework
+
 
 class PixaViewCell: UICollectionViewCell {
     //MARK:  Outlets -

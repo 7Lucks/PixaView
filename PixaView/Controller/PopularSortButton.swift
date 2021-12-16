@@ -6,8 +6,9 @@
 //
 
 import UIKit
+import TestFramework
 
-let myKeyId = "16834549-9bf1a2a9f7bfa54e36404be81"
+
 class PopularLastestButton{
 
     //MARK: - sorts latests and popular
@@ -19,8 +20,6 @@ class PopularLastestButton{
 
     func pixaGallerySort(_ page: Int = 1, order: Order = .popular) {
         var urlString = ""
-        //var collectionSort = PixaViewController()  // вылетает симулятор
-
         switch order {
         case .latest:
             urlString = "https://pixabay.com/api/?key=\(myKeyId)&editors_choice=true&page=\(page)&per_page=15&order=latest"

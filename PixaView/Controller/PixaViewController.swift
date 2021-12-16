@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import TestFramework
 
 class PixaViewController: UIViewController {
     //MARK: Outlets -

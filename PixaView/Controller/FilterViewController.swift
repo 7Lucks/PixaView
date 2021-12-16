@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import TestFramework
 
 enum Categories: String, CaseIterable{
     case backgrounds
