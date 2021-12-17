@@ -6,7 +6,31 @@
 //
 import UIKit
 import TestFramework
+
 let myKeyId = "16834549-9bf1a2a9f7bfa54e36404be81"
+
+ enum Categories: String, CaseIterable{
+    case backgrounds
+    case fashion
+    case nature
+    case science
+    case education
+    case feelings
+    case health
+    case people
+    case religion
+    case places
+    case animals
+    case industry
+    case computer
+    case food
+    case sports
+    case transportation
+    case travel
+    case buildings
+    case business
+    case music
+}
 
 public class HTTPService{
     let session: HTTPClient
@@ -15,21 +39,21 @@ public class HTTPService{
         self.session = session
     }
 
-    func fetch(completion: @escaping ([Hits]) -> (),order : PopularLastestButton.Order ,selectedCategory:[String],currentPage:Int) {
-
+    func fetchPics(order : PopularLastestButton.Order ,filterCategory:[Categories],currentPage:Int, completion: @escaping ([Hits]) -> ()) {
+        
+        let filterCategory:[Categories] = Categories.allCases
+        
         var urlComponents = URLComponents(string: "https://pixabay.com/api")!
         urlComponents.queryItems = [
             "key": myKeyId,
             "image_type": "photo",
-            "per_page": 150,
+            "per_page": 15,
             "safesearch": "true",
             "page": currentPage,
             "order": order,
-            "category": selectedCategory.joined(separator: ",")
+            "category": filterCategory
         ].map({ URLQueryItem(name: $0, value: "\($1)")})
-
-
-
+     
         session.get(from: urlComponents.url!) { (result) in
             switch result {
             case let .success(data, response):
@@ -39,4 +63,12 @@ public class HTTPService{
             }
         }
     }
+}
+extension URLSession: NetworkSession{
+    
+    public func dataTask(with url: URL, completionHandler: @escaping (Data?, URLResponse?, Error?) -> Void) -> NetworkRequest {
+        dataTask(with: URLRequest(url: url), completionHandler: completionHandler)
+    }
+    
+     
 }

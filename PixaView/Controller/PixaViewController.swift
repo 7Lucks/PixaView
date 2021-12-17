@@ -31,7 +31,7 @@ class PixaViewController: UIViewController {
         self.collectionView.register(UINib(nibName: PixaViewCell.cellIdentifier, bundle: nil), forCellWithReuseIdentifier: PixaViewCell.cellIdentifier) //assign to cell the Xib file
         self.collectionView.dataSource = self //the cell need to understand where to get the filling from. add protocol to extension - UICollectionViewDataSource
         self.collectionView.delegate = self //delegate with collectionView. Subscribe to UICollectionViewDelegate as delegate
-        fetchPics()
+        fetch()
         droppedMunu()
     }
     //MARK: - End of viewDidLoad
@@ -55,47 +55,27 @@ class PixaViewController: UIViewController {
     }
 
     func didSelectSortingStrategy( order: PopularLastestButton.Order){
-        var urlString = ""
-        switch order {
-        case .latest:
-            urlString = "https://pixabay.com/api/?key=\(myKeyId)&editors_choice=true&per_page=150&order=latest"
-        case .popular:
-            urlString = "https://pixabay.com/api/?key=\(myKeyId)&editors_choice=true&per_page=150&order=popular"
-            
-        } //end of swith
-        changedUrl(newURL: URL(string: urlString)!)
+//        var urlString = ""
+//        switch order {
+//        case .latest:
+//            urlString = "https://pixabay.com/api/?key=\(myKeyId)&editors_choice=true&per_page=150&order=latest"
+//        case .popular:
+//            urlString = "https://pixabay.com/api/?key=\(myKeyId)&editors_choice=true&per_page=150&order=popular"
+//
+//        } //end of swith
+//        changedUrl(newURL: URL(string: urlString)!)
     }
     
     
     func didSelectCategory(category: [Categories]){
+//
+//        let filtredURL = "https://pixabay.com/api/?key=16834549-9bf1a2a9f7bfa54e36404be81&q=\(enumValue)&per_page=100&image_type=photo"
+//        print("selected \(enumValue) category")
+//        changedUrl(newURL: URL(string: filtredURL)!)
+//
+   }
     
-        let filtredURL = "https://pixabay.com/api/?key=16834549-9bf1a2a9f7bfa54e36404be81&q=\(enumValue)&per_page=100&image_type=photo"
-        print("selected \(enumValue) category")
-        changedUrl(newURL: URL(string: filtredURL)!)
-
-    }
     
-    
-    func changedUrl(newURL: URL){
-        
-        let task = URLSession.shared.dataTask(with: newURL){[weak self] data, _, error in
-            guard let data = data, error == nil else {
-                return
-            }
-            
-            do{
-                let jsonResults = try JSONDecoder().decode(ImageAPIResponse.self, from: data)
-                DispatchQueue.main.async {
-                    self?.hitsRESULT = jsonResults.hits
-                    self?.collectionView.reloadData() // reload data to cell
-                }// to main que
-            }catch{
-                print("Here is some ERR - \(error)")
-            }
-        }
-        task.resume()
-    } // end of fetchPics
-
     //MARK: - end of dreopped button
  //MARK: - actions
     @IBAction func filterButtonDidTap(_ sender: UIButton) {
@@ -112,29 +92,18 @@ class PixaViewController: UIViewController {
     
     
     //MARK: Methods -
-    func fetchPics(){
-        guard let url = URL(string: urlStr) else{return}
-        
-        let task = URLSession.shared.dataTask(with: url){[weak self] data, _, error in
-            guard let data = data, error == nil else {
-                return
-            }
-            //do catch for JSON decoder
-            do{
-                let jsonResults = try JSONDecoder().decode(ImageAPIResponse.self, from: data)
-                
-                //                              print(jsonResults.hits.count)  //by default is 20
-                //                              print(response)
-                
-                DispatchQueue.main.async {
-                    self?.hitsRESULT = jsonResults.hits
-                    self?.collectionView.reloadData() // reload data to cell
-                }// to main que
-            }catch{
-                print("Here is some ERR - \(error)")
-            }
+    func fetch(){
+        let URLSession = URLSession.shared
+        var service: HTTPService = HTTPService(with: URLSessionHttpClient(session: URLSession))
+        service.fetchPics(order: .popular, filterCategory: [.backgrounds], currentPage: 1) { fetchedHits  in
+            
+            DispatchQueue.main.async {
+                var fetchedHits = [Hits]()
+                self.hitsRESULT = fetchedHits
+                self.collectionView.reloadData()
+            } // dispatch
         }
-        task.resume()
+        
     } // end of fetchPics
 
     //MARK: - End of Methods

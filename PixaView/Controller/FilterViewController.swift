@@ -8,28 +8,7 @@
 import UIKit
 import TestFramework
 
-enum Categories: String, CaseIterable{
-    case backgrounds
-    case fashion
-    case nature
-    case science
-    case education
-    case feelings
-    case health
-    case people
-    case religion
-    case places
-    case animals
-    case industry
-    case computer
-    case food
-    case sports
-    case transportation
-    case travel
-    case buildings
-    case business
-    case music
-}
+
 
 
 class FilterViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
@@ -46,7 +25,8 @@ class FilterViewController: UIViewController, UITableViewDelegate, UITableViewDa
         title = "Pixa View Filters"
         //cancel button in nav bar
         navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Search", style: .plain, target: self, action: #selector(cancelButtonFilterVC))
-        //dome button in nav bar
+        
+        //done button in nav bar
             //navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(doneButtonFilterVC))
         
         

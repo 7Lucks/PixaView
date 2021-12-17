@@ -31,7 +31,7 @@ public class URLSessionHttpClient: HTTPClient{
     private struct UnexpectedArguments: Error {}
     private let session: NetworkSession
     
-    init(session: NetworkSession){
+    public init(session: NetworkSession){
         self.session = session
     }
     
