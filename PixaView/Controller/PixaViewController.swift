@@ -15,9 +15,8 @@ class PixaViewController: UIViewController {
         //MARK: - end of Outlets
     
     //MARK:  Properties -
-//    let urlStr = "https://pixabay.com/api/?key=\(myKeyId)&q=audi&per_page=100&image_type=photo"
-//
-    let urlStr = "https://pixabay.com/api/?key=16834549-9bf1a2a9f7bfa54e36404be81&q=china&per_page=100&image_type=photo" // https://pixabay.com/api/
+
+  //  let urlStr = "https://pixabay.com/api/?key=16834549-9bf1a2a9f7bfa54e36404be81&q=china&per_page=100&image_type=photo" // https://pixabay.com/api/
     var hitsRESULT: [Hits] = [] //array from json
     var popularLastetstButton = PopularLastestButton()
     var enumValue = ""
@@ -94,16 +93,15 @@ class PixaViewController: UIViewController {
     //MARK: Methods -
     func fetch(){
         let URLSession = URLSession.shared
-        var service: HTTPService = HTTPService(with: URLSessionHttpClient(session: URLSession))
+        let service: HTTPService = HTTPService(with: URLSessionHttpClient(session: URLSession))
         service.fetchPics(order: .popular, filterCategory: [.backgrounds], currentPage: 1) { fetchedHits  in
             
             DispatchQueue.main.async {
-                var fetchedHits = [Hits]()
+                let fetchedHits = [Hits]()
                 self.hitsRESULT = fetchedHits
                 self.collectionView.reloadData()
             } // dispatch
         }
-        
     } // end of fetchPics
 
     //MARK: - End of Methods

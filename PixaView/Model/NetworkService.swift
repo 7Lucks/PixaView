@@ -67,7 +67,8 @@ public class HTTPService{
 extension URLSession: NetworkSession{
     
     public func dataTask(with url: URL, completionHandler: @escaping (Data?, URLResponse?, Error?) -> Void) -> NetworkRequest {
-        dataTask(with: URLRequest(url: url), completionHandler: completionHandler)
+        let datatask = dataTask(with: URLRequest(url: url), completionHandler: completionHandler)
+        return datatask
     }
     
      
