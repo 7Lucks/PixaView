@@ -39,22 +39,6 @@ class PixaViewCell: UICollectionViewCell {
         activityIndicator.isHidden = false
         activityIndicator.hidesWhenStopped = true
     }
-    
-    func configure(with urlString: String){
-//        guard let url = URL(string: urlString) else{
-//            return
-//        }
-//        let taskSetImage = URLSession.shared.dataTask(with: url){data, _, error in
-//            guard let data = data, error == nil else{
-//                return
-//            }
-//            DispatchQueue.main.async {
-//                let image = UIImage(data: data)
-//                self.pixaImageOutlet.image = image
-//                self.activityIndicator.stopAnimating()
-//            }
-//        }
-//        taskSetImage.resume()
-    }
+
     //MARK: - end of Methods
 }//end of PixaViewCell

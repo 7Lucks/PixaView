@@ -30,8 +30,10 @@ class PixaViewController: UIViewController {
         self.collectionView.register(UINib(nibName: PixaViewCell.cellIdentifier, bundle: nil), forCellWithReuseIdentifier: PixaViewCell.cellIdentifier) //assign to cell the Xib file
         self.collectionView.dataSource = self //the cell need to understand where to get the filling from. add protocol to extension - UICollectionViewDataSource
         self.collectionView.delegate = self //delegate with collectionView. Subscribe to UICollectionViewDelegate as delegate
-        fetch()
+        fetch(order: .popular, filterCategory: [.backgrounds], currentPage: 1)
         droppedMunu()
+        setImage()
+    
     }
     //MARK: - End of viewDidLoad
     
@@ -91,7 +93,7 @@ class PixaViewController: UIViewController {
     
     
     //MARK: Methods -
-    func fetch(){
+    func fetch(order : PopularLastestButton.Order, filterCategory:[Categories],currentPage:Int){
         let URLSession = URLSession.shared
         let service: HTTPService = HTTPService(with: URLSessionHttpClient(session: URLSession))
         service.fetchPics(order: .popular, filterCategory: [.backgrounds], currentPage: 1) { fetchedHits  in
@@ -103,6 +105,40 @@ class PixaViewController: UIViewController {
             } // dispatch
         }
     } // end of fetchPics
+    
+    
+    // MARK: QUESTION : setImage to cell -
+    func setImage(){
+        
+        
+        
+        //guard let url = URL(string: urlString) else{
+      //            return
+      //        }
+      //        let taskSetImage = URLSession.shared.dataTask(with: url){data, _, error in
+      //            guard let data = data, error == nil else{
+      //                return
+      //            }
+      //            DispatchQueue.main.async {
+      //                let image = UIImage(data: data)
+      //                self.pixaImageOutlet.image = image
+      //                self.activityIndicator.stopAnimating()
+      //            }
+      //        }
+      //        taskSetImage.resume()
+    let pixaViewCell = PixaViewCell()
+        let fetchedData = fetch(order: .popular, filterCategory: [.backgrounds], currentPage: 1)
+        
+        DispatchQueue.main.async {
+        
+                
+//            pixaViewCell.pixaImageOutlet.image =
+               // pixaViewCell.activityIndicator.stopAnimating()
+        }
+            
+        }
+        
+   
 
     //MARK: - End of Methods
     
@@ -125,7 +161,8 @@ extension PixaViewController:UICollectionViewDataSource, UICollectionViewDelegat
         }
         // cell.backgroundColor = .systemGray
         cell.tagsLabelOutlet.text = hitsRESULT[indexPath.row].tags
-        cell.configure(with: imageURLString)
+        // MARK: QUESTION : config cell -
+     //   cell.configure(with: imageURLString)
         cell.cellPixaConfig()
         return cell
     } // end of collectionView
