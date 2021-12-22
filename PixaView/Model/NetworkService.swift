@@ -40,9 +40,12 @@ public class HTTPService{
         self.session = session
     }
     //MARK:  Methods -
-    func fetchPics(order : PopularLastestButton.Order ,filterCategory:[Categories],currentPage:Int, completion: @escaping ([Hits]) -> ()) {
-        
-        let filterCategory:[Categories] = Categories.allCases
+    func fetchPics(order : PopularLastestButton.Order, filterCategory:[Categories], currentPage:Int, completion: @escaping ([Hits]) -> ()) {
+
+        for i in filterCategory{
+            var stringCategory = [String]()
+            stringCategory.append(i.rawValue)
+        }
         
         var urlComponents = URLComponents(string: "https://pixabay.com/api")!
         urlComponents.queryItems = [
@@ -52,38 +55,36 @@ public class HTTPService{
             "safesearch": "true",
             "page": currentPage,
             "order": order,
-            "category": filterCategory
+           // "category": filterCategory [0]
         ].map({ URLQueryItem(name: $0, value: "\($1)")})
         
         session.get(from: urlComponents.url!) { (result) in
             switch result {
             case let .success(data, response):
-                completion((try? JSONDecoder().decode(ImageAPIResponse.self, from: data).hits) ?? [])
+                completion((try! JSONDecoder().decode(ImageAPIResponse.self, from: data).hits) ?? [])
             case let .failure(error):
                 break
             }//end of switch
         }// end of session
-        print ("")
     } // end of fetchPics
+    
 } // end of HTTPService
 
 
 //MARK: ImageLoader -
 
-public struct ImageLoader {
+ struct ImageLoader {
     
-    public let session: HTTPClient
+     let session: HTTPClient
     
-    public init(with session: HTTPClient) {
+     init(with session: HTTPClient) {
         self.session = session
     }
-    
-    //MARK: PictureLoader-
-    
-    public  func loadPics(from url: URL, completion: @escaping (UIImage) -> ()) {
+      func loadPics(from url: URL, completion: @escaping (UIImage) -> ()) {
         session.get(from: url) { (result) in
             switch result {
             case let .success(data, _):
+                
                 completion(UIImage(data: data)!)
             case let .failure(error):
                 break
@@ -91,6 +92,7 @@ public struct ImageLoader {
             
         }
     }
+     
 } // end of ImageLoader
 
 

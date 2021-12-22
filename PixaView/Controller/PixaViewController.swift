@@ -33,7 +33,7 @@ class PixaViewController: UIViewController {
         //fetch(order: .popular, filterCategory: [.backgrounds], currentPage: 1)
         fetch()
         droppedMunu()
-        setImage()
+        //setImage()
         
     }
     //MARK: - End of viewDidLoad
@@ -94,21 +94,19 @@ class PixaViewController: UIViewController {
     
     
     //MARK: Methods -
-    // func fetch(order : PopularLastestButton.Order, filterCategory:[Categories],currentPage:Int){
     func fetch(){
         let URLSession = URLSession.shared
         let service: HTTPService = HTTPService(with: URLSessionHttpClient(session: URLSession))
-        service.fetchPics(order: .popular, filterCategory: [.backgrounds], currentPage: 1) { fetchedHits  in
-            
+        service.fetchPics(order: .popular, filterCategory: [.religion], currentPage: 1) { fetchHits  in
+           
             DispatchQueue.main.async {
-                let fetchedHits = [Hits]()
-                self.hitsRESULT = fetchedHits
+                self.hitsRESULT = fetchHits
                 self.collectionView.reloadData()
+//                let pixaViewCell = PixaViewCell()
+//                pixaViewCell.activityIndicator.stopAnimating()
             } // dispatch
         }
-        print ("somw - \(hitsRESULT)")
     } // end of fetchPics
-    
     
     // MARK: QUESTION : setImage to cell -
     func setImage(){
@@ -126,14 +124,14 @@ class PixaViewController: UIViewController {
         //            }
         //        }
         //        taskSetImage.resume()
-        let pixaViewCell = PixaViewCell()
+        
         // let fetchedData = fetch(order: .popular, filterCategory: [.backgrounds], currentPage: 1)
         
         DispatchQueue.main.async {
             
             
             //            pixaViewCell.pixaImageOutlet.image =
-            // pixaViewCell.activityIndicator.stopAnimating()
+            //
         }
         
     }
@@ -173,6 +171,7 @@ extension PixaViewController:UICollectionViewDataSource, UICollectionViewDelegat
                 
                 cell.pixaImageOutlet.image = image
                 cell.tagsLabelOutlet.text = hitsTags
+                print(image)
             }
         }
         return cell
