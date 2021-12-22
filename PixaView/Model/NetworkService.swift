@@ -9,7 +9,7 @@ import TestFramework
 
 let myKeyId = "16834549-9bf1a2a9f7bfa54e36404be81"
 
- enum Categories: String, CaseIterable{
+enum Categories: String, CaseIterable{
     case backgrounds
     case fashion
     case nature
@@ -35,11 +35,11 @@ let myKeyId = "16834549-9bf1a2a9f7bfa54e36404be81"
 
 public class HTTPService{
     let session: HTTPClient
-
-   public init(with session: HTTPClient) {
+    
+    public init(with session: HTTPClient) {
         self.session = session
     }
-
+    //MARK:  Methods -
     func fetchPics(order : PopularLastestButton.Order ,filterCategory:[Categories],currentPage:Int, completion: @escaping ([Hits]) -> ()) {
         
         let filterCategory:[Categories] = Categories.allCases
@@ -54,23 +54,52 @@ public class HTTPService{
             "order": order,
             "category": filterCategory
         ].map({ URLQueryItem(name: $0, value: "\($1)")})
-     
+        
         session.get(from: urlComponents.url!) { (result) in
             switch result {
             case let .success(data, response):
                 completion((try? JSONDecoder().decode(ImageAPIResponse.self, from: data).hits) ?? [])
             case let .failure(error):
                 break
+            }//end of switch
+        }// end of session
+        print ("")
+    } // end of fetchPics
+} // end of HTTPService
+
+
+//MARK: ImageLoader -
+
+public struct ImageLoader {
+    
+    public let session: HTTPClient
+    
+    public init(with session: HTTPClient) {
+        self.session = session
+    }
+    
+    //MARK: PictureLoader-
+    
+    public  func loadPics(from url: URL, completion: @escaping (UIImage) -> ()) {
+        session.get(from: url) { (result) in
+            switch result {
+            case let .success(data, _):
+                completion(UIImage(data: data)!)
+            case let .failure(error):
+                break
             }
+            
         }
     }
-}
+} // end of ImageLoader
+
+
+//MARK:  Extensions -
 extension URLSession: NetworkSession{
     
     public func dataTask(with url: URL, completionHandler: @escaping (Data?, URLResponse?, Error?) -> Void) -> NetworkRequest {
         let datatask = dataTask(with: URLRequest(url: url), completionHandler: completionHandler)
         return datatask
     }
-    
-     
 }
+//MARK: - end of Extensions
