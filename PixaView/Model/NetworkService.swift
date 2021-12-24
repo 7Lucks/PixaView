@@ -55,7 +55,7 @@ public class HTTPService{
             "safesearch": "true",
             "page": currentPage,
             "order": order,
-           // "category": filterCategory [0]
+            "category": filterCategory [0]
         ].map({ URLQueryItem(name: $0, value: "\($1)")})
         
         session.get(from: urlComponents.url!) { (result) in

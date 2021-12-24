@@ -20,8 +20,8 @@ class PixaViewController: UIViewController {
     var hitsRESULT: [Hits] = [] //array from json
     var popularLastetstButton = PopularLastestButton()
     var enumValue = ""
-    
-    
+    //var pixaViewCell = PixaViewCell()
+
     //MARK: - end of Properties
     
     //MARK:  viewDidLoad -
@@ -30,17 +30,18 @@ class PixaViewController: UIViewController {
         self.collectionView.register(UINib(nibName: PixaViewCell.cellIdentifier, bundle: nil), forCellWithReuseIdentifier: PixaViewCell.cellIdentifier) //assign to cell the Xib file
         self.collectionView.dataSource = self //the cell need to understand where to get the filling from. add protocol to extension - UICollectionViewDataSource
         self.collectionView.delegate = self //delegate with collectionView. Subscribe to UICollectionViewDelegate as delegate
-        //fetch(order: .popular, filterCategory: [.backgrounds], currentPage: 1)
         fetch()
-        droppedMunu()
-        //setImage()
-        
+        droppedMenuPopularSort()
+       // pixaViewCell.activityIndicator.stopAnimating()
     }
     //MARK: - End of viewDidLoad
     
     //MARK:  dropped button-
     
-    func droppedMunu(){
+    
+         //FIXME:  переделать на вызов вьюхи
+    
+    func droppedMenuPopularSort(){
         let droppedSortMenu = UIMenu(title:"PixaSort", children: [
             UIAction(title: "Popular", image: UIImage(systemName: "tray.full"), handler: {(_) in
                 self.popularLastetstButton.pixaGallerySort(1, order: .popular )
@@ -55,6 +56,12 @@ class PixaViewController: UIViewController {
         self.sortButtonOutlet.showsMenuAsPrimaryAction = true
         
     }
+    
+    /*
+    // MARK: -QUESTION : https://stackoverflow.com/questions/41684499/swift-starting-and-stopping-the-animation-of-an-activity-indicator-inside-a-cus  activity indicator
+     
+     
+    */
     
     func didSelectSortingStrategy( order: PopularLastestButton.Order){
         //        var urlString = ""
@@ -76,9 +83,9 @@ class PixaViewController: UIViewController {
         //        changedUrl(newURL: URL(string: filtredURL)!)
         //
     }
-    
-    
     //MARK: - end of dreopped button
+    
+    
     //MARK: - actions
     @IBAction func filterButtonDidTap(_ sender: UIButton) {
         guard let filterVC = storyboard?.instantiateViewController(withIdentifier: "FilterViewControllerID") else{return}
@@ -91,62 +98,21 @@ class PixaViewController: UIViewController {
         present(navVC, animated: true, completion: nil)
         
     }
-    
-    
+
     //MARK: Methods -
     func fetch(){
         let URLSession = URLSession.shared
         let service: HTTPService = HTTPService(with: URLSessionHttpClient(session: URLSession))
-        service.fetchPics(order: .popular, filterCategory: [.religion], currentPage: 1) { fetchHits  in
+        service.fetchPics(order: .popular, filterCategory: [.computer], currentPage: 1) { fetchHits  in
            
             DispatchQueue.main.async {
                 self.hitsRESULT = fetchHits
                 self.collectionView.reloadData()
-//                let pixaViewCell = PixaViewCell()
-//                pixaViewCell.activityIndicator.stopAnimating()
+                
             } // dispatch
         }
     } // end of fetchPics
-    
-    // MARK: QUESTION : setImage to cell -
-    func setImage(){
-        //guard let url = URL(string: urlString) else{
-        //            return
-        //        }
-        //        let taskSetImage = URLSession.shared.dataTask(with: url){data, _, error in
-        //            guard let data = data, error == nil else{
-        //                return
-        //            }
-        //            DispatchQueue.main.async {
-        //                let image = UIImage(data: data)
-        //                self.pixaImageOutlet.image = image
-        //                self.activityIndicator.stopAnimating()
-        //            }
-        //        }
-        //        taskSetImage.resume()
-        
-        // let fetchedData = fetch(order: .popular, filterCategory: [.backgrounds], currentPage: 1)
-        
-        DispatchQueue.main.async {
-            
-            
-            //            pixaViewCell.pixaImageOutlet.image =
-            //
-        }
-        
-    }
-    
-    //    func fetchHits(order : PopularLastestButton.Order , filterCategory:[Categories], currentPage:Int) {
-    //
-    //      HTTPService(with:
-    //                self.hits.append(contentsOf:post)
-    //                self.totalHits = totalHits
-    //            }, order: order, selectedCategory: selectedCategory,currentPage: currentPage)
-    //
-    //    }
-    
     //MARK: - End of Methods
-    
 } // end of PixaViewController class
 
 //MARK: Extensions -
@@ -181,24 +147,20 @@ extension PixaViewController:UICollectionViewDataSource, UICollectionViewDelegat
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return CGSize(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.width )  // need to check
     }
-    // set cell indent(отступ) by 0 px
-    //    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-    //        //return 0
-    //        return 10
-    //    }
+//     set cell indent(отступ) by 0 px
+        func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+            //return 0
+            return 2
+        }
     
     // when use "paging" shoud use this method insetForSectionAt
     
-    //    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-    //        return UIEdgeInsets(top: 5, left: 0, bottom: 5, right: 0)
-    //    }
-    //
-    //
-    //        func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-    //            let detailedVC = (storyboard?.instantiateViewController(withIdentifier: "DetailedViewController") as? DetailedViewController)!
-    //            self.navigationController?.pushViewController(detailedVC, animated: true)
-    //        }
-    //
+        func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+            return UIEdgeInsets(top: 5, left: 2, bottom: 5, right: 2)
+        }
+    
+    
+        
     //        func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath){
     //
     //                print(" selected")

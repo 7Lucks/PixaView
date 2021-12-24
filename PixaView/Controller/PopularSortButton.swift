@@ -13,7 +13,7 @@ class PopularLastestButton{
 
     //MARK: - sorts latests and popular
     enum Order: String {
-        case latest = "lastest"
+        case latest = "latest"
         case popular = "popular"
     }
     var sortHits:[Hits] = []
@@ -30,3 +30,7 @@ class PopularLastestButton{
     } // end of method
 } // end of class
 
+
+
+// переделать через делегат
+// пределать меню на новый вьюконтроллер 

@@ -52,7 +52,7 @@ class FilterViewController: UIViewController, UITableViewDelegate, UITableViewDa
 //    }
     
     
-    //MARK: teble methods -
+    //MARK: tаble methods -
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return filterCategory.count
     }

@@ -23,22 +23,17 @@ class PixaViewCell: UICollectionViewCell {
     override func prepareForReuse() {
         super.prepareForReuse()
         self.pixaImageOutlet.image = nil
+       
     }
-    //MARK: - end of Properties
-    
-    
-    
-        //FIXME: - Перенести методы в другой файл!
-    
-    //MARK:  Methods-
-    
-    func cellPixaConfig(){
-        pixaImageOutlet.clipsToBounds = true              // clip to bounds
+
+    override func awakeFromNib() {
+        super.awakeFromNib()
+            pixaImageOutlet.clipsToBounds = true              // clip to bounds
         pixaImageOutlet.contentMode = .scaleAspectFill   // aspect fill
         pixaImageOutlet.layer.cornerRadius = 15
         activityIndicator.isHidden = false
         activityIndicator.hidesWhenStopped = true
+      
     }
-
-    //MARK: - end of Methods
+    //MARK: - end of Properties
 }//end of PixaViewCell
