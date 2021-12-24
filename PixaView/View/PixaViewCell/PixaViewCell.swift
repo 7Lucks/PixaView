@@ -30,10 +30,7 @@ class PixaViewCell: UICollectionViewCell {
         super.awakeFromNib()
             pixaImageOutlet.clipsToBounds = true              // clip to bounds
         pixaImageOutlet.contentMode = .scaleAspectFill   // aspect fill
-        pixaImageOutlet.layer.cornerRadius = 15
-        activityIndicator.isHidden = false
-        activityIndicator.hidesWhenStopped = true
-      
+        pixaImageOutlet.layer.cornerRadius = 15      
     }
     //MARK: - end of Properties
 }//end of PixaViewCell

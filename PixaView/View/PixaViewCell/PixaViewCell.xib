@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="19455" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="19529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19454"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19519"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -23,23 +23,23 @@
                         <nil key="highlightedColor"/>
                     </label>
                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Mer-3i-z5V">
-                        <rect key="frame" x="0.0" y="0.0" width="461" height="332"/>
+                        <rect key="frame" x="10" y="0.0" width="441" height="332"/>
                     </imageView>
-                    <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="large" translatesAutoresizingMaskIntoConstraints="NO" id="Col-Bl-sUl">
+                    <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="large" translatesAutoresizingMaskIntoConstraints="NO" id="Col-Bl-sUl">
                         <rect key="frame" x="212" y="159" width="37" height="37"/>
                     </activityIndicatorView>
                 </subviews>
             </view>
             <viewLayoutGuide key="safeArea" id="ZTg-uK-7eu"/>
             <constraints>
-                <constraint firstItem="Mer-3i-z5V" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="OVk-qK-4Kg"/>
+                <constraint firstItem="Mer-3i-z5V" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="10" id="OVk-qK-4Kg"/>
                 <constraint firstItem="A83-cU-Zbz" firstAttribute="centerX" secondItem="ZTg-uK-7eu" secondAttribute="centerX" id="RAb-9O-YtP"/>
                 <constraint firstAttribute="bottom" secondItem="A83-cU-Zbz" secondAttribute="bottom" constant="5" id="WhL-hd-FPy"/>
                 <constraint firstItem="A83-cU-Zbz" firstAttribute="top" secondItem="Mer-3i-z5V" secondAttribute="bottom" constant="5" id="c95-hw-LOd"/>
                 <constraint firstItem="A83-cU-Zbz" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="10" id="cFb-hD-k7C"/>
                 <constraint firstAttribute="trailing" secondItem="A83-cU-Zbz" secondAttribute="trailing" constant="10" id="cte-0d-U1R"/>
                 <constraint firstItem="Col-Bl-sUl" firstAttribute="centerY" secondItem="gTV-IL-0wX" secondAttribute="centerY" id="d6q-U4-Dvx"/>
-                <constraint firstAttribute="trailing" secondItem="Mer-3i-z5V" secondAttribute="trailing" id="gfN-qf-Xxo"/>
+                <constraint firstAttribute="trailing" secondItem="Mer-3i-z5V" secondAttribute="trailing" constant="10" id="gfN-qf-Xxo"/>
                 <constraint firstItem="Mer-3i-z5V" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="wb7-ro-Ouq"/>
                 <constraint firstItem="Col-Bl-sUl" firstAttribute="centerX" secondItem="gTV-IL-0wX" secondAttribute="centerX" id="wpP-qD-l6F"/>
             </constraints>

@@ -124,20 +124,20 @@ extension PixaViewController:UICollectionViewDataSource, UICollectionViewDelegat
     
     // type of the cells
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PixaViewCell.cellIdentifier, for: indexPath) as? PixaViewCell else{
             return PixaViewCell()}
         
         let hitsTags = hitsRESULT[indexPath.item].tags
         
         let url = URL(string: hitsRESULT[indexPath.row].webformatURL)!
+        cell.activityIndicator.startAnimating()
         ImageLoader(with: URLSessionHttpClient(session: URLSession.shared)).loadPics(from: url) { (image) in
             DispatchQueue.main.async {
                 guard collectionView.indexPath(for: cell) == indexPath else {return }
                 
                 cell.pixaImageOutlet.image = image
                 cell.tagsLabelOutlet.text = hitsTags
-                print(image)
+                cell.activityIndicator.stopAnimating()
             }
         }
         return cell
