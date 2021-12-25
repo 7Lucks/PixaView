@@ -8,7 +8,9 @@
 import UIKit
 import TestFramework
 
-
+protocol FilterViewControllerDelegate{
+    func filterViewController( controller: FilterViewController, filterCategory: [Categories])
+}
 
 
 class FilterViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
@@ -17,6 +19,8 @@ class FilterViewController: UIViewController, UITableViewDelegate, UITableViewDa
     let tableView = UITableView()
     let filterCategory:[Categories] = Categories.allCases
     var holder: PixaViewController?
+    var delegate: FilterViewControllerDelegate?
+    
     //MARK: - end of Properties
     
     override func viewDidLoad() {
@@ -24,11 +28,8 @@ class FilterViewController: UIViewController, UITableViewDelegate, UITableViewDa
         view.addSubview(tableView)
         title = "Pixa View Filters"
         //cancel button in nav bar
-        navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Search", style: .plain, target: self, action: #selector(cancelButtonFilterVC))
-        
-        //done button in nav bar
-            //navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(doneButtonFilterVC))
-        
+        navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(cancelButtonFilterVC))
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Search", style: .plain, target: self, action: #selector(searchButtonFilterVC))
         
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
         tableView.register(TableHeader.self, forHeaderFooterViewReuseIdentifier: "header")
@@ -46,10 +47,10 @@ class FilterViewController: UIViewController, UITableViewDelegate, UITableViewDa
     @objc private func cancelButtonFilterVC(){
         dismiss(animated: true, completion: nil)
     }
-//    //done button nav bar method
-//    @objc private func  doneButtonFilterVC(){
-//        self.navigationController?.popViewController(animated: true)
-//    }
+    //done button nav bar method
+    @objc private func  searchButtonFilterVC(){
+       // self.navigationController?.popViewController(animated: true)
+    }
     
     
     //MARK: tаble methods -

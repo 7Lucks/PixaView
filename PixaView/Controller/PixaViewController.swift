@@ -8,19 +8,19 @@
 import UIKit
 import TestFramework
 
-class PixaViewController: UIViewController {
+class PixaViewController: UIViewController{
+    
     //MARK: Outlets -
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var sortButtonOutlet: UIButton!
     //MARK: - end of Outlets
     
     //MARK:  Properties -
-    
-    //  let urlStr = "https://pixabay.com/api/?key=16834549-9bf1a2a9f7bfa54e36404be81&q=china&per_page=100&image_type=photo" // https://pixabay.com/api/
+
     var hitsRESULT: [Hits] = [] //array from json
     var popularLastetstButton = PopularLastestButton()
     var enumValue = ""
-    //var pixaViewCell = PixaViewCell()
+    
 
     //MARK: - end of Properties
     
@@ -30,39 +30,40 @@ class PixaViewController: UIViewController {
         self.collectionView.register(UINib(nibName: PixaViewCell.cellIdentifier, bundle: nil), forCellWithReuseIdentifier: PixaViewCell.cellIdentifier) //assign to cell the Xib file
         self.collectionView.dataSource = self //the cell need to understand where to get the filling from. add protocol to extension - UICollectionViewDataSource
         self.collectionView.delegate = self //delegate with collectionView. Subscribe to UICollectionViewDelegate as delegate
+       let sortButton = navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "line.3.horizontal.circle"), style: .plain, target: self, action: #selector(pixaSortButton))
+       // navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Sort", style: .plain, target: self, action: #selector(pixaSortButton))
         fetch()
-        droppedMenuPopularSort()
-       // pixaViewCell.activityIndicator.stopAnimating()
     }
     //MARK: - End of viewDidLoad
     
     //MARK:  dropped button-
     
+//    func droppedMenuPopularSort(){
+//        let droppedSortMenu = UIMenu(title:"PixaSort", children: [
+//            UIAction(title: "Popular", image: UIImage(systemName: "tray.full"), handler: {(_) in
+//                self.popularLastetstButton.pixaGallerySort(1, order: .popular )
+//                self.didSelectSortingStrategy(order: .popular)
+//            }),
+//            UIAction(title: "Lastest", image: UIImage(systemName: "star.circle"), handler: {(_) in
+//                self.popularLastetstButton.pixaGallerySort(1, order: .latest)
+//                self.didSelectSortingStrategy(order: .latest)
+//            })
+//        ])
+//        self.sortButtonOutlet.menu = droppedSortMenu
+//        self.sortButtonOutlet.showsMenuAsPrimaryAction = true
+//
+//    }
+    //MARK: - end of dreopped button
     
-         //FIXME:  переделать на вызов вьюхи
     
-    func droppedMenuPopularSort(){
-        let droppedSortMenu = UIMenu(title:"PixaSort", children: [
-            UIAction(title: "Popular", image: UIImage(systemName: "tray.full"), handler: {(_) in
-                self.popularLastetstButton.pixaGallerySort(1, order: .popular )
-                self.didSelectSortingStrategy(order: .popular)
-            }),
-            UIAction(title: "Lastest", image: UIImage(systemName: "star.circle"), handler: {(_) in
-                self.popularLastetstButton.pixaGallerySort(1, order: .latest)
-                self.didSelectSortingStrategy(order: .latest)
-            })
-        ])
-        self.sortButtonOutlet.menu = droppedSortMenu
-        self.sortButtonOutlet.showsMenuAsPrimaryAction = true
+    @objc private func pixaSortButton(){
+        dismiss(animated: true, completion: nil)
         
+        let sortButtonVC = SortButtonViewController()
+        self.present(sortButtonVC, animated: true)
+        
+
     }
-    
-    /*
-    // MARK: -QUESTION : https://stackoverflow.com/questions/41684499/swift-starting-and-stopping-the-animation-of-an-activity-indicator-inside-a-cus  activity indicator
-     
-     
-    */
-    
     func didSelectSortingStrategy( order: PopularLastestButton.Order){
         //        var urlString = ""
         //        switch order {
@@ -83,7 +84,7 @@ class PixaViewController: UIViewController {
         //        changedUrl(newURL: URL(string: filtredURL)!)
         //
     }
-    //MARK: - end of dreopped button
+
     
     
     //MARK: - actions
@@ -112,11 +113,15 @@ class PixaViewController: UIViewController {
             } // dispatch
         }
     } // end of fetchPics
+    
+    func filterViewController(controller: FilterViewController, filterCategory: [Categories]) {
+        
+    }
     //MARK: - End of Methods
 } // end of PixaViewController class
 
 //MARK: Extensions -
-extension PixaViewController:UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout{
+extension PixaViewController:UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, FilterViewControllerDelegate {
     // number of cells
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return hitsRESULT.count
