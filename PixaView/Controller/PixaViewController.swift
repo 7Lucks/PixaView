@@ -18,7 +18,7 @@ class PixaViewController: UIViewController{
     //MARK:  Properties -
 
     var hitsRESULT: [Hits] = [] //array from json
-    var popularLastetstButton = PopularLastestButton()
+    //var popularLastetstButton = PopularLastestButton()
     var enumValue = ""
     
 
@@ -30,9 +30,10 @@ class PixaViewController: UIViewController{
         self.collectionView.register(UINib(nibName: PixaViewCell.cellIdentifier, bundle: nil), forCellWithReuseIdentifier: PixaViewCell.cellIdentifier) //assign to cell the Xib file
         self.collectionView.dataSource = self //the cell need to understand where to get the filling from. add protocol to extension - UICollectionViewDataSource
         self.collectionView.delegate = self //delegate with collectionView. Subscribe to UICollectionViewDelegate as delegate
+        
        let sortButton = navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "line.3.horizontal.circle"), style: .plain, target: self, action: #selector(pixaSortButton))
        // navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Sort", style: .plain, target: self, action: #selector(pixaSortButton))
-        fetch()
+        fetch(order: .latest)
     }
     //MARK: - End of viewDidLoad
     
@@ -55,18 +56,17 @@ class PixaViewController: UIViewController{
 //    }
     //MARK: - end of dreopped button
     
-    
     @objc private func pixaSortButton(){
         dismiss(animated: true, completion: nil)
         
         let sortButtonVC = SortButtonViewController()
+        sortButtonVC.delegate = self
         self.present(sortButtonVC, animated: true)
-        
 
     }
-    func didSelectSortingStrategy( order: PopularLastestButton.Order){
-        //        var urlString = ""
-        //        switch order {
+//    func didSelectSortingStrategy( order: PopularLastestButton.Order){
+//        //        var urlString = ""
+//        //        switch order {
         //        case .latest:
         //            urlString = "https://pixabay.com/api/?key=\(myKeyId)&editors_choice=true&per_page=150&order=latest"
         //        case .popular:
@@ -74,7 +74,7 @@ class PixaViewController: UIViewController{
         //
         //        } //end of swith
         //        changedUrl(newURL: URL(string: urlString)!)
-    }
+//    }
     
     
     func didSelectCategory(category: [Categories]){
@@ -83,7 +83,9 @@ class PixaViewController: UIViewController{
         //        print("selected \(enumValue) category")
         //        changedUrl(newURL: URL(string: filtredURL)!)
         //
-    }
+        
+        
+    } // End of Pixa view class
 
     
     
@@ -101,7 +103,7 @@ class PixaViewController: UIViewController{
     }
 
     //MARK: Methods -
-    func fetch(){
+    func fetch(order: Order){
         let URLSession = URLSession.shared
         let service: HTTPService = HTTPService(with: URLSessionHttpClient(session: URLSession))
         service.fetchPics(order: .popular, filterCategory: [.computer], currentPage: 1) { fetchHits  in
@@ -109,19 +111,27 @@ class PixaViewController: UIViewController{
             DispatchQueue.main.async {
                 self.hitsRESULT = fetchHits
                 self.collectionView.reloadData()
-                
             } // dispatch
         }
     } // end of fetchPics
     
+    
+    
     func filterViewController(controller: FilterViewController, filterCategory: [Categories]) {
-        
+
     }
     //MARK: - End of Methods
 } // end of PixaViewController class
 
 //MARK: Extensions -
-extension PixaViewController:UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, FilterViewControllerDelegate {
+extension PixaViewController:UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, FilterViewControllerDelegate, SortImageProtocol {
+    
+    // когда  передаем енам в метод, передаем переменную которая создаеся в методе в этом случае sort !!
+    func sortImageDidTap(sortButtodDidTap sort: Order) {
+        fetch(order: sort)
+        print(sort)
+    }
+    
     // number of cells
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return hitsRESULT.count
@@ -152,25 +162,7 @@ extension PixaViewController:UICollectionViewDataSource, UICollectionViewDelegat
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return CGSize(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.width )  // need to check
     }
-//     set cell indent(отступ) by 0 px
-        func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-            //return 0
-            return 2
-        }
-    
-    // when use "paging" shoud use this method insetForSectionAt
-    
-        func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-            return UIEdgeInsets(top: 5, left: 2, bottom: 5, right: 2)
-        }
-    
-    
-        
-    //        func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath){
-    //
-    //                print(" selected")
-    //            }
-    //
+
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         //MARK: - какие данные хотим передать

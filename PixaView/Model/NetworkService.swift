@@ -40,7 +40,7 @@ public class HTTPService{
         self.session = session
     }
     //MARK:  Methods -
-    func fetchPics(order : PopularLastestButton.Order, filterCategory:[Categories], currentPage:Int, completion: @escaping ([Hits]) -> ()) {
+    func fetchPics(order : Order, filterCategory:[Categories], currentPage:Int, completion: @escaping ([Hits]) -> ()) {
         
         //        for i in filterCategory{
         //            var stringCategory = [String]()
@@ -66,7 +66,9 @@ public class HTTPService{
                 break
             }//end of switch
         }// end of session
+        //print("the url is -- \(urlComponents.url)")
     } // end of fetchPics
+    
 } // end of HTTPService
 
 
@@ -90,8 +92,9 @@ struct ImageLoader {
             }
             
         }
+
     }
-    
+   
 } // end of ImageLoader
 
 
