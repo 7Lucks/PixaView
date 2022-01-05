@@ -9,10 +9,10 @@ import UIKit
 import TestFramework
 
 class DetailedViewController: UIViewController{
-
+    
     //MARK: Outlets-
     @IBOutlet weak var detailedCollectionView: UICollectionView!
-   //MARK: Properties-
+    //MARK: Properties-
     var detailedPictures: UIImage?
     var tags = ""
     var urlData: String?
@@ -25,8 +25,8 @@ class DetailedViewController: UIViewController{
         self.detailedCollectionView.delegate = self
     }
     //MARK:  Actions-
-//share button
-        
+    //share button
+    
     @IBAction func shareButton(_ sender: UIButton) {
         let item:[Any] = [detailedPictures!]
         let  activity = UIActivityViewController(activityItems: item, applicationActivities: nil)
@@ -54,7 +54,7 @@ extension DetailedViewController: UICollectionViewDataSource, UICollectionViewDe
         }
         detCell.detailImageOutlet.image = detailedPictures
         detCell.detailedTextLabel.text = tags
-       // detCell.detailedCellConfig()
+        // detCell.detailedCellConfig()
         return detCell
     }
 }

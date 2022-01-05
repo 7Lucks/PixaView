@@ -71,11 +71,12 @@ class SortButtonVC: UIViewController{
     //MARK:  Button methods -
     @objc func popularButtonTaped(){
         sortImageDelegate?.sortInTableDidTap(sortButtodDidTap: .popular)
-        // print("tapped")
+        dismiss(animated: true, completion: nil)
     }
     
     @objc func lastetsButtonTaped(){
         sortImageDelegate?.sortInTableDidTap(sortButtodDidTap: .latest)
+        dismiss(animated: true, completion: nil)
     }
     
     //MARK:  ViewDidLoad-

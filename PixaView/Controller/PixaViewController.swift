@@ -19,7 +19,8 @@ class PixaViewController: UIViewController{
     var enumValue = ""
     var order: Order = .popular
     var categogies: [Categories] = [.backgrounds]
-//var orderSelected
+    var viewPage = 1
+    //var orderSelected
     //MARK: - end of Properties
     
     //MARK:  viewDidLoad -
@@ -36,7 +37,7 @@ class PixaViewController: UIViewController{
     
     @objc private func pixaSortButton(){
         dismiss(animated: true, completion: nil)
-        
+    
         let sortButtonVC = SortButtonVC()
         sortButtonVC.sortImageDelegate = self
         self.present(sortButtonVC, animated: true)
@@ -56,7 +57,11 @@ class PixaViewController: UIViewController{
         
     }
     
-    //MARK: Methods -
+    //MARK: <Methods>
+    
+    
+    
+    //MARK: - fetch data
     func fetch(order: Order,filterCategory: [Categories]){
         let URLSession = URLSession.shared
         let service: HTTPService = HTTPService(with: URLSessionHttpClient(session: URLSession))
@@ -71,7 +76,7 @@ class PixaViewController: UIViewController{
     
     
     
-    //MARK: - End of Methods
+    //MARK: - End of <Methods>
 } // end of PixaViewController class
 
 //MARK: Extensions -
@@ -117,16 +122,15 @@ extension PixaViewController:UICollectionViewDataSource, UICollectionViewDelegat
             }
         }
         return cell
-    } // end of collectionView
+    } // end of cellForItemAt indexPath
     
     // cell cizes  // as diasplay // vertical
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return CGSize(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.width )  // need to check
     }
     
-    
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        //MARK: - какие данные хотим передать
+        //MARK: какие данные хотим передать
         let cellImage = (collectionView.cellForItem(at: indexPath) as? PixaViewCell)?.pixaImageOutlet.image
         let cellTags = (collectionView.cellForItem(at: indexPath) as? PixaViewCell)?.tagsLabelOutlet.text
         
@@ -137,6 +141,18 @@ extension PixaViewController:UICollectionViewDataSource, UICollectionViewDelegat
         vc.tags = cellTags ?? "No tags"
         
         self.navigationController?.pushViewController(vc, animated: true)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        // print("index path is \(indexPath.row)")
+        
+        
+        viewPage = viewPage + 1
+        if indexPath.row == hitsRESULT.count-1 {
+          
+          //  print("called paggination")
+           // fetch(order: order, filterCategory: categogies)
+        }
     }
 }// end of Extensions
 

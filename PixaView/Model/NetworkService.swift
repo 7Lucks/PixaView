@@ -41,17 +41,11 @@ public class HTTPService{
     }
     //MARK:  Methods -
     func fetchPics(order : Order, filterCategory:[Categories], currentPage:Int, completion: @escaping ([Hits]) -> ()) {
-        
-        //        for i in filterCategory{
-        //            var stringCategory = [String]()
-        //            stringCategory.append(i.rawValue)
-        //        }
-        
         var urlComponents = URLComponents(string: "https://pixabay.com/api")!
         urlComponents.queryItems = [
             "key": myKeyId,
             "image_type": "photo",
-            "per_page": 15,
+            "per_page": 20,
             "safesearch": "true",
             "page": currentPage,
             "order": order,
@@ -90,11 +84,8 @@ struct ImageLoader {
             case let .failure(error):
                 break
             }
-            
         }
-
     }
-   
 } // end of ImageLoader
 
 
