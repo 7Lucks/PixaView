@@ -9,29 +9,28 @@ import UIKit
 import TestFramework
 
 protocol SortImageProtocol: AnyObject{
-    func sortImageDidTap (sortButtodDidTap sort: Order  )
-    
+    func sortInTableDidTap(sortButtodDidTap sort: Order)
 }
 
+//MARK: sort ENUMs-
 enum Order: String {
     case latest
     case popular
 }
 
 //MARK: -  SortButton VC
-class SortButtonViewController: UIViewController{
+class SortButtonVC: UIViewController{
     
-    weak var delegate: SortImageProtocol?
-    
-    
+    weak var sortImageDelegate: SortImageProtocol?
+    //background
     private let backgroundView: UIView = {
         let view = UIView()
-        view.backgroundColor = .black
+        view.backgroundColor = .lightGray
         view.translatesAutoresizingMaskIntoConstraints = false
         view.layer.cornerRadius = 15
-       return view
+        return view
     }()
-    
+    //label
     private let sortLabel:UILabel = {
         let label = UILabel()
         label.backgroundColor = .white
@@ -45,19 +44,18 @@ class SortButtonViewController: UIViewController{
     
     //MARK: sort buttons -
     private let populatButton:UIButton = {
-       let popularButton = UIButton()
+        let popularButton = UIButton()
         popularButton.backgroundColor = .blue
         popularButton.setTitle("Popular", for: .normal)
-        //popularButton.tintColor = .blue
         popularButton.layer.cornerRadius = 15
         popularButton.addTarget(self, action: #selector(popularButtonTaped), for: .touchUpInside)
         popularButton.translatesAutoresizingMaskIntoConstraints = false
         popularButton.alpha = 0.6
         return popularButton
     }()
-
+    
     private let latestButton:UIButton = {
-       let lastestButton = UIButton()
+        let lastestButton = UIButton()
         lastestButton.backgroundColor = .purple
         lastestButton.setTitle("Lastest", for: .normal)
         lastestButton.tintColor = .green
@@ -67,34 +65,33 @@ class SortButtonViewController: UIViewController{
         lastestButton.alpha = 0.8
         return lastestButton
     }()
-    
-    
-  private  var buttonStackView = UIStackView()
+    // uIStack two button
+    private  var buttonStackView = UIStackView()
     
     //MARK:  Button methods -
     @objc func popularButtonTaped(){
-        delegate?.sortImageDidTap(sortButtodDidTap: .popular)
-       // print("tapped")
+        sortImageDelegate?.sortInTableDidTap(sortButtodDidTap: .popular)
+        // print("tapped")
     }
     
     @objc func lastetsButtonTaped(){
-        delegate?.sortImageDidTap(sortButtodDidTap: .latest)
+        sortImageDelegate?.sortInTableDidTap(sortButtodDidTap: .latest)
     }
     
+    //MARK:  ViewDidLoad-
     override func viewDidLoad() {
         super.viewDidLoad()
         setupSortView()
         setupConstraints()
-        
     }
-
+    
+    //MARK: VC small window -
     let viewControllerSmallSortView = UIView(frame: CGRect(x: 100 , y:30 , width: 250, height: 200))
-
+    
+    // setup View
     func setupSortView(){
         title = "Select Sorting strategy"
         viewControllerSmallSortView.backgroundColor = .systemGray
-       // viewControllerSmallSortView.alpha = 0.7
-        
         buttonStackView = UIStackView(arrangedSubviews: [populatButton, latestButton],
                                       axis: .horizontal,
                                       spacing: 15,
@@ -106,60 +103,55 @@ class SortButtonViewController: UIViewController{
         viewControllerSmallSortView.addSubview(backgroundView)
         backgroundView.addSubview(sortLabel)
         backgroundView.addSubview(buttonStackView)
-        
     }
 }
 
-
-
-    func pixaGallerySort(_ page: Int = 1, order: Order = .popular) {
-     
-    } // end of method
-// end of class
-
-extension SortButtonViewController{
+//MARK:  extensions -
+extension SortButtonVC{
     
+    //setup constrains
     func setupConstraints(){
         
+        //bg
         NSLayoutConstraint.activate([
             backgroundView.centerYAnchor.constraint(equalTo: viewControllerSmallSortView.centerYAnchor),
             backgroundView.centerXAnchor.constraint(equalTo: viewControllerSmallSortView.centerXAnchor),
             backgroundView.heightAnchor.constraint(equalTo: viewControllerSmallSortView.heightAnchor),
             backgroundView.widthAnchor.constraint(equalTo: viewControllerSmallSortView.widthAnchor)
         ])
-        
+        //label
         NSLayoutConstraint.activate([
             sortLabel.centerXAnchor.constraint(equalTo: backgroundView.centerXAnchor),
             sortLabel.leadingAnchor.constraint(equalTo: backgroundView.leadingAnchor, constant: 15),
-          sortLabel.trailingAnchor.constraint(equalTo: backgroundView.trailingAnchor, constant: -15),
+            sortLabel.trailingAnchor.constraint(equalTo: backgroundView.trailingAnchor, constant: -15),
             sortLabel.topAnchor.constraint(equalTo: backgroundView.topAnchor, constant: 15),
             sortLabel.heightAnchor.constraint(equalToConstant: 30)
         ])
-        
+        //buttons
         NSLayoutConstraint.activate([
             populatButton.heightAnchor.constraint(equalToConstant: 20),
             latestButton.heightAnchor.constraint(equalToConstant: 20)
             
         ])
-        
+        //stackView
         NSLayoutConstraint.activate([
             buttonStackView.leadingAnchor.constraint(equalTo: backgroundView.leadingAnchor,constant: 20),
             buttonStackView.trailingAnchor.constraint(equalTo: backgroundView.trailingAnchor, constant: -20),
             buttonStackView.topAnchor.constraint(equalTo: sortLabel.bottomAnchor, constant: 20),
             buttonStackView.bottomAnchor.constraint(equalTo: backgroundView.bottomAnchor, constant: -20)
-        
+            
         ])
     }
 }
 //https://proswift.ru/vspomogatelnye-inicializatory-convenience-init/ convinience init
 //https://github.com/SwifterSwift/SwifterSwift/blob/master/Sources/SwifterSwift/UIKit/UIStackViewExtensions.swift
+
 extension UIStackView{
-    
     convenience init(arrangedSubviews: [UIView], axis: NSLayoutConstraint.Axis, spacing: CGFloat, /*alignment: UIStackView.Alignment,*/ distribution: UIStackView.Distribution) {
         self.init(arrangedSubviews: arrangedSubviews)
         self.axis = axis
         self.spacing = spacing
-     //   self.alignment = alignment
+        //   self.alignment = alignment
         self.distribution = distribution
         self.translatesAutoresizingMaskIntoConstraints = false
     }

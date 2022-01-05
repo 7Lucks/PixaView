@@ -8,28 +8,37 @@
 import UIKit
 import TestFramework
 
-protocol FilterViewControllerDelegate{
-    func filterViewController( controller: FilterViewController, filterCategory: [Categories])
+protocol TableFilterViewControllerDelegate: AnyObject{
+    func filterButtonDidTap(filterCategory: [Categories])
 }
 
-
-class FilterViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+class TableFilterVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
     //MARK:  Properties-
     let tableView = UITableView()
     let filterCategory:[Categories] = Categories.allCases
     var holder: PixaViewController?
-    var delegate: FilterViewControllerDelegate?
-    
+    weak var tableViewFilterSelectedDelegate: TableFilterViewControllerDelegate?
+    var selectedCategories: [Categories] = []
     //MARK: - end of Properties
+    
+    //MARK:  viewDidLoad -
     
     override func viewDidLoad() {
         super.viewDidLoad()
         view.addSubview(tableView)
         title = "Pixa View Filters"
+        
         //cancel button in nav bar
-        navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(cancelButtonFilterVC))
-        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Search", style: .plain, target: self, action: #selector(searchButtonFilterVC))
+        navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Cancel",
+                                                           style: .plain,
+                                                           target: self,
+                                                           action: #selector(cancelButtonFilterVC))
+        //search button in nav bar
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Search",
+                                                            style: .plain,
+                                                            target: self,
+                                                            action: #selector(searchButtonFilterVC))
         
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
         tableView.register(TableHeader.self, forHeaderFooterViewReuseIdentifier: "header")
@@ -43,15 +52,22 @@ class FilterViewController: UIViewController, UITableViewDelegate, UITableViewDa
         tableView.frame = view.bounds
     }
     
+    //MARK: button actions-
+    
     //cancel button nav bar method
     @objc private func cancelButtonFilterVC(){
         dismiss(animated: true, completion: nil)
     }
-    //done button nav bar method
-    @objc private func  searchButtonFilterVC(){
-       // self.navigationController?.popViewController(animated: true)
-    }
     
+    //search button nav bar method
+    @objc private func  searchButtonFilterVC(){
+       self.navigationController?.popViewController(animated: true)
+        
+        tableViewFilterSelectedDelegate?.filterButtonDidTap(filterCategory: selectedCategories)
+        dismiss(animated: true, completion: nil)
+        
+    }
+ //MARK: - end of button actions
     
     //MARK: tаble methods -
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -61,7 +77,7 @@ class FilterViewController: UIViewController, UITableViewDelegate, UITableViewDa
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
         cell.textLabel?.text = filterCategory[indexPath.row].rawValue.capitalized
-        
+    
         return cell
     }
     
@@ -78,8 +94,8 @@ class FilterViewController: UIViewController, UITableViewDelegate, UITableViewDa
         tableView.deselectRow(at: indexPath, animated: true)
         
         holder?.enumValue = filterCategory[indexPath.row].rawValue
-        holder?.didSelectCategory(category:[filterCategory[indexPath.row]])
-        
+        selectedCategories.append(filterCategory[indexPath.row])
+ 
     }
     
     // viewForHeader
@@ -87,10 +103,9 @@ class FilterViewController: UIViewController, UITableViewDelegate, UITableViewDa
         let header = tableView.dequeueReusableHeaderFooterView(withIdentifier: "header")
         return header
     }
-    
 }// end of FilterViewController
 
-//MARK: - HEADER and FOOTER for the table
+//MARK: HEADER and FOOTER for the table -
 
 class TableHeader: UITableViewHeaderFooterView{
     static let identifier = "TableHeader"

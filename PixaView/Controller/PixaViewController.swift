@@ -12,16 +12,14 @@ class PixaViewController: UIViewController{
     
     //MARK: Outlets -
     @IBOutlet weak var collectionView: UICollectionView!
-    @IBOutlet weak var sortButtonOutlet: UIButton!
     //MARK: - end of Outlets
     
     //MARK:  Properties -
-
     var hitsRESULT: [Hits] = [] //array from json
-    //var popularLastetstButton = PopularLastestButton()
     var enumValue = ""
-    
-
+    var order: Order = .popular
+    var categogies: [Categories] = [.backgrounds]
+//var orderSelected
     //MARK: - end of Properties
     
     //MARK:  viewDidLoad -
@@ -31,83 +29,39 @@ class PixaViewController: UIViewController{
         self.collectionView.dataSource = self //the cell need to understand where to get the filling from. add protocol to extension - UICollectionViewDataSource
         self.collectionView.delegate = self //delegate with collectionView. Subscribe to UICollectionViewDelegate as delegate
         
-       let sortButton = navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "line.3.horizontal.circle"), style: .plain, target: self, action: #selector(pixaSortButton))
-       // navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Sort", style: .plain, target: self, action: #selector(pixaSortButton))
-        fetch(order: .latest)
+        let sortButton = navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "line.3.horizontal.circle"), style: .plain, target: self, action: #selector(pixaSortButton))
+        fetch(order: order, filterCategory: categogies)
     }
     //MARK: - End of viewDidLoad
-    
-    //MARK:  dropped button-
-    
-//    func droppedMenuPopularSort(){
-//        let droppedSortMenu = UIMenu(title:"PixaSort", children: [
-//            UIAction(title: "Popular", image: UIImage(systemName: "tray.full"), handler: {(_) in
-//                self.popularLastetstButton.pixaGallerySort(1, order: .popular )
-//                self.didSelectSortingStrategy(order: .popular)
-//            }),
-//            UIAction(title: "Lastest", image: UIImage(systemName: "star.circle"), handler: {(_) in
-//                self.popularLastetstButton.pixaGallerySort(1, order: .latest)
-//                self.didSelectSortingStrategy(order: .latest)
-//            })
-//        ])
-//        self.sortButtonOutlet.menu = droppedSortMenu
-//        self.sortButtonOutlet.showsMenuAsPrimaryAction = true
-//
-//    }
-    //MARK: - end of dreopped button
     
     @objc private func pixaSortButton(){
         dismiss(animated: true, completion: nil)
         
-        let sortButtonVC = SortButtonViewController()
-        sortButtonVC.delegate = self
+        let sortButtonVC = SortButtonVC()
+        sortButtonVC.sortImageDelegate = self
         self.present(sortButtonVC, animated: true)
-
     }
-//    func didSelectSortingStrategy( order: PopularLastestButton.Order){
-//        //        var urlString = ""
-//        //        switch order {
-        //        case .latest:
-        //            urlString = "https://pixabay.com/api/?key=\(myKeyId)&editors_choice=true&per_page=150&order=latest"
-        //        case .popular:
-        //            urlString = "https://pixabay.com/api/?key=\(myKeyId)&editors_choice=true&per_page=150&order=popular"
-        //
-        //        } //end of swith
-        //        changedUrl(newURL: URL(string: urlString)!)
-//    }
-    
-    
-    func didSelectCategory(category: [Categories]){
-        //
-        //        let filtredURL = "https://pixabay.com/api/?key=16834549-9bf1a2a9f7bfa54e36404be81&q=\(enumValue)&per_page=100&image_type=photo"
-        //        print("selected \(enumValue) category")
-        //        changedUrl(newURL: URL(string: filtredURL)!)
-        //
-        
-        
-    } // End of Pixa view class
-
     
     
     //MARK: - actions
     @IBAction func filterButtonDidTap(_ sender: UIButton) {
-        guard let filterVC = storyboard?.instantiateViewController(withIdentifier: "FilterViewControllerID") else{return}
-        //present(filterVC, animated: true, completion: nil)
         
-        let filterViewController = filterVC as? FilterViewController
+        guard let filterVC = storyboard?.instantiateViewController(withIdentifier: "FilterViewControllerID") else{return}
+        let filterViewController = filterVC as? TableFilterVC
         filterViewController?.holder = self
+        filterViewController?.tableViewFilterSelectedDelegate = self
         
         let navVC = UINavigationController(rootViewController: filterVC)
-        present(navVC, animated: true, completion: nil)
+        self.present(navVC, animated: true, completion: nil)
         
     }
-
+    
     //MARK: Methods -
-    func fetch(order: Order){
+    func fetch(order: Order,filterCategory: [Categories]){
         let URLSession = URLSession.shared
         let service: HTTPService = HTTPService(with: URLSessionHttpClient(session: URLSession))
-        service.fetchPics(order: .popular, filterCategory: [.computer], currentPage: 1) { fetchHits  in
-           
+        service.fetchPics(order: order, filterCategory: filterCategory, currentPage: 1) { fetchHits  in
+            
             DispatchQueue.main.async {
                 self.hitsRESULT = fetchHits
                 self.collectionView.reloadData()
@@ -117,18 +71,25 @@ class PixaViewController: UIViewController{
     
     
     
-    func filterViewController(controller: FilterViewController, filterCategory: [Categories]) {
-
-    }
     //MARK: - End of Methods
 } // end of PixaViewController class
 
 //MARK: Extensions -
-extension PixaViewController:UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, FilterViewControllerDelegate, SortImageProtocol {
+extension PixaViewController:UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, TableFilterViewControllerDelegate, SortImageProtocol {
+    
+    //filter delegate
+    func filterButtonDidTap(filterCategory: [Categories]) {
+        fetch(order: order , filterCategory: filterCategory)
+        
+        categogies = filterCategory
+        print(filterCategory)
+    }
     
     // когда  передаем енам в метод, передаем переменную которая создаеся в методе в этом случае sort !!
-    func sortImageDidTap(sortButtodDidTap sort: Order) {
-        fetch(order: sort)
+    //sort image delegate
+    func sortInTableDidTap(sortButtodDidTap sort: Order) {
+        fetch(order: sort, filterCategory: categogies)
+        order = sort
         print(sort)
     }
     
@@ -162,7 +123,7 @@ extension PixaViewController:UICollectionViewDataSource, UICollectionViewDelegat
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return CGSize(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.width )  // need to check
     }
-
+    
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         //MARK: - какие данные хотим передать
@@ -177,7 +138,6 @@ extension PixaViewController:UICollectionViewDataSource, UICollectionViewDelegat
         
         self.navigationController?.pushViewController(vc, animated: true)
     }
-    
 }// end of Extensions
 
 
