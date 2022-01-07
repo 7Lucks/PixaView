@@ -61,13 +61,13 @@ class TableFilterVC: UIViewController, UITableViewDelegate, UITableViewDataSourc
     
     //search button nav bar method
     @objc private func  searchButtonFilterVC(){
-       self.navigationController?.popViewController(animated: true)
+        self.navigationController?.popViewController(animated: true)
         
         tableViewFilterSelectedDelegate?.filterButtonDidTap(filterCategory: selectedCategories)
         dismiss(animated: true, completion: nil)
         
     }
- //MARK: - end of button actions
+    //MARK: - end of button actions
     
     //MARK: tаble methods -
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -77,7 +77,7 @@ class TableFilterVC: UIViewController, UITableViewDelegate, UITableViewDataSourc
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
         cell.textLabel?.text = filterCategory[indexPath.row].rawValue.capitalized
-    
+        
         return cell
     }
     
@@ -95,7 +95,7 @@ class TableFilterVC: UIViewController, UITableViewDelegate, UITableViewDataSourc
         
         holder?.enumValue = filterCategory[indexPath.row].rawValue
         selectedCategories.append(filterCategory[indexPath.row])
- 
+        
     }
     
     // viewForHeader
@@ -141,8 +141,8 @@ class TableHeader: UITableViewHeaderFooterView{
     }
 }
 
-
+// TODO: if needed footer for table view
 class TableFooter: UITableViewHeaderFooterView{
     static let identifier = "TableFooter"
-        
+    
 }

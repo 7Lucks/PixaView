@@ -40,7 +40,7 @@ public class HTTPService{
         self.session = session
     }
     //MARK:  Methods -
-    func fetchPics(order : Order, filterCategory:[Categories], currentPage:Int, completion: @escaping ([Hits]) -> ()) {
+    func fetchPics(order : Order, filterCategory:[Categories], currentPage:Int, completion: @escaping ( [Hits], Int) -> ()) {
         var urlComponents = URLComponents(string: "https://pixabay.com/api")!
         urlComponents.queryItems = [
             "key": myKeyId,
@@ -55,7 +55,8 @@ public class HTTPService{
         session.get(from: urlComponents.url!) { (result) in
             switch result {
             case let .success(data, response):
-                completion((try! JSONDecoder().decode(ImageAPIResponse.self, from: data).hits) ?? [])
+                let response = try! JSONDecoder().decode(ImageAPIResponse.self, from: data)
+                completion(response.hits, response.total)
             case let .failure(error):
                 break
             }//end of switch

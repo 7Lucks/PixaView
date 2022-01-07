@@ -12,7 +12,7 @@ protocol SortImageProtocol: AnyObject{
     func sortInTableDidTap(sortButtodDidTap sort: Order)
 }
 
-//MARK: sort ENUMs-
+//MARK: sort(Order) ENUMs-
 enum Order: String {
     case latest
     case popular
@@ -21,7 +21,9 @@ enum Order: String {
 //MARK: -  SortButton VC
 class SortButtonVC: UIViewController{
     
+    //delegate to sort images
     weak var sortImageDelegate: SortImageProtocol?
+    
     //background
     private let backgroundView: UIView = {
         let view = UIView()
@@ -30,6 +32,7 @@ class SortButtonVC: UIViewController{
         view.layer.cornerRadius = 15
         return view
     }()
+    
     //label
     private let sortLabel:UILabel = {
         let label = UILabel()
@@ -42,7 +45,7 @@ class SortButtonVC: UIViewController{
         return label
     }()
     
-    //MARK: sort buttons -
+    //sort buttons
     private let populatButton:UIButton = {
         let popularButton = UIButton()
         popularButton.backgroundColor = .blue
@@ -53,7 +56,7 @@ class SortButtonVC: UIViewController{
         popularButton.alpha = 0.6
         return popularButton
     }()
-    
+    // latest button
     private let latestButton:UIButton = {
         let lastestButton = UIButton()
         lastestButton.backgroundColor = .purple
@@ -65,6 +68,7 @@ class SortButtonVC: UIViewController{
         lastestButton.alpha = 0.8
         return lastestButton
     }()
+    
     // uIStack two button
     private  var buttonStackView = UIStackView()
     
@@ -85,6 +89,7 @@ class SortButtonVC: UIViewController{
         setupSortView()
         setupConstraints()
     }
+    
     
     //MARK: VC small window -
     let viewControllerSmallSortView = UIView(frame: CGRect(x: 100 , y:30 , width: 250, height: 200))
@@ -147,6 +152,7 @@ extension SortButtonVC{
 //https://proswift.ru/vspomogatelnye-inicializatory-convenience-init/ convinience init
 //https://github.com/SwifterSwift/SwifterSwift/blob/master/Sources/SwifterSwift/UIKit/UIStackViewExtensions.swift
 
+//MARK: - extension to UIStackView to create stack view for buttons
 extension UIStackView{
     convenience init(arrangedSubviews: [UIView], axis: NSLayoutConstraint.Axis, spacing: CGFloat, /*alignment: UIStackView.Alignment,*/ distribution: UIStackView.Distribution) {
         self.init(arrangedSubviews: arrangedSubviews)

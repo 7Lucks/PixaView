@@ -12,6 +12,8 @@ class DetailedViewController: UIViewController{
     
     //MARK: Outlets-
     @IBOutlet weak var detailedCollectionView: UICollectionView!
+    
+    
     //MARK: Properties-
     var detailedPictures: UIImage?
     var tags = ""
@@ -26,7 +28,6 @@ class DetailedViewController: UIViewController{
     }
     //MARK:  Actions-
     //share button
-    
     @IBAction func shareButton(_ sender: UIButton) {
         let item:[Any] = [detailedPictures!]
         let  activity = UIActivityViewController(activityItems: item, applicationActivities: nil)
@@ -35,7 +36,6 @@ class DetailedViewController: UIViewController{
         self.present(activity, animated: true, completion: nil)
         
     }
-    //    //MARK: - end of Actions
 } // end of DetailedViewController
 
 //MARK:  Extensions-
@@ -57,4 +57,4 @@ extension DetailedViewController: UICollectionViewDataSource, UICollectionViewDe
         // detCell.detailedCellConfig()
         return detCell
     }
-}
+} // end of Extensions

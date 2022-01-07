@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="19455" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="19529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="dark"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19454"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19519"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -17,7 +17,7 @@
                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                 <subviews>
                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="L5y-NO-iWC">
-                        <rect key="frame" x="0.0" y="0.0" width="811" height="617"/>
+                        <rect key="frame" x="5" y="0.0" width="801" height="617"/>
                     </imageView>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Image name " textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="leF-MH-NuS">
                         <rect key="frame" x="0.0" y="622" width="811" height="30"/>
@@ -35,8 +35,8 @@
                 <constraint firstAttribute="trailing" secondItem="leF-MH-NuS" secondAttribute="trailing" id="8Vb-8L-stJ"/>
                 <constraint firstItem="leF-MH-NuS" firstAttribute="top" secondItem="L5y-NO-iWC" secondAttribute="bottom" constant="5" id="MMQ-ej-x6t"/>
                 <constraint firstItem="leF-MH-NuS" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="Rsi-Uu-pKj"/>
-                <constraint firstItem="L5y-NO-iWC" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="Tyt-1o-UOJ"/>
-                <constraint firstAttribute="trailing" secondItem="L5y-NO-iWC" secondAttribute="trailing" id="edy-5h-aQ1"/>
+                <constraint firstItem="L5y-NO-iWC" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="5" id="Tyt-1o-UOJ"/>
+                <constraint firstAttribute="trailing" secondItem="L5y-NO-iWC" secondAttribute="trailing" constant="5" id="edy-5h-aQ1"/>
                 <constraint firstItem="L5y-NO-iWC" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="gja-Xf-Uvh"/>
                 <constraint firstAttribute="bottom" secondItem="leF-MH-NuS" secondAttribute="bottom" constant="10" id="uaY-h8-0xZ"/>
             </constraints>

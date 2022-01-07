@@ -12,15 +12,15 @@ class PixaViewController: UIViewController{
     
     //MARK: Outlets -
     @IBOutlet weak var collectionView: UICollectionView!
-    //MARK: - end of Outlets
+    
     
     //MARK:  Properties -
     var hitsRESULT: [Hits] = [] //array from json
     var enumValue = ""
     var order: Order = .popular
-    var categogies: [Categories] = [.backgrounds]
+    var categogies: [Categories] = [.computer]
     var viewPage = 1
-    //var orderSelected
+    var total = 0
     //MARK: - end of Properties
     
     //MARK:  viewDidLoad -
@@ -31,13 +31,15 @@ class PixaViewController: UIViewController{
         self.collectionView.delegate = self //delegate with collectionView. Subscribe to UICollectionViewDelegate as delegate
         
         let sortButton = navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "line.3.horizontal.circle"), style: .plain, target: self, action: #selector(pixaSortButton))
-        fetch(order: order, filterCategory: categogies)
+        
+        fetch(order: order, currentPage: viewPage, filterCategory: categogies)
     }
     //MARK: - End of viewDidLoad
     
+    // pixa sort button
     @objc private func pixaSortButton(){
         dismiss(animated: true, completion: nil)
-    
+        
         let sortButtonVC = SortButtonVC()
         sortButtonVC.sortImageDelegate = self
         self.present(sortButtonVC, animated: true)
@@ -45,6 +47,7 @@ class PixaViewController: UIViewController{
     
     
     //MARK: - actions
+    //filterButtonDidTap
     @IBAction func filterButtonDidTap(_ sender: UIButton) {
         
         guard let filterVC = storyboard?.instantiateViewController(withIdentifier: "FilterViewControllerID") else{return}
@@ -55,20 +58,22 @@ class PixaViewController: UIViewController{
         let navVC = UINavigationController(rootViewController: filterVC)
         self.present(navVC, animated: true, completion: nil)
         
-    }
+    } //end of filterButtonDidTap
+    
     
     //MARK: <Methods>
     
     
     
     //MARK: - fetch data
-    func fetch(order: Order,filterCategory: [Categories]){
+    func fetch(order: Order, currentPage: Int, filterCategory: [Categories]){
         let URLSession = URLSession.shared
         let service: HTTPService = HTTPService(with: URLSessionHttpClient(session: URLSession))
-        service.fetchPics(order: order, filterCategory: filterCategory, currentPage: 1) { fetchHits  in
+        service.fetchPics(order: order, filterCategory: filterCategory, currentPage: currentPage) { fetchedHits, total in
             
             DispatchQueue.main.async {
-                self.hitsRESULT = fetchHits
+                self.total = total
+                self.hitsRESULT.append(contentsOf: fetchedHits)
                 self.collectionView.reloadData()
             } // dispatch
         }
@@ -82,10 +87,13 @@ class PixaViewController: UIViewController{
 //MARK: Extensions -
 extension PixaViewController:UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, TableFilterViewControllerDelegate, SortImageProtocol {
     
+    
+    //MARK: delegates for filter / sort -
     //filter delegate
     func filterButtonDidTap(filterCategory: [Categories]) {
-        fetch(order: order , filterCategory: filterCategory)
-        
+        hitsRESULT.removeAll()
+        viewPage = 1
+        fetch(order: order, currentPage: viewPage , filterCategory: filterCategory)
         categogies = filterCategory
         print(filterCategory)
     }
@@ -93,17 +101,24 @@ extension PixaViewController:UICollectionViewDataSource, UICollectionViewDelegat
     // когда  передаем енам в метод, передаем переменную которая создаеся в методе в этом случае sort !!
     //sort image delegate
     func sortInTableDidTap(sortButtodDidTap sort: Order) {
-        fetch(order: sort, filterCategory: categogies)
+        hitsRESULT.removeAll()
+        viewPage = 1
+        fetch(order: sort, currentPage: viewPage, filterCategory: categogies)
         order = sort
         print(sort)
     }
+  //MARK: - end of sort/filter delegates
     
-    // number of cells
+    
+    
+//MARK: - collection view setup -
+    // number of cells numberOfItemsInSection
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return hitsRESULT.count
-    }
+    }// end of numberOfItemsInSection
     
     // type of the cells
+    //cellForItemAt indexPath:
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PixaViewCell.cellIdentifier, for: indexPath) as? PixaViewCell else{
             return PixaViewCell()}
@@ -125,12 +140,15 @@ extension PixaViewController:UICollectionViewDataSource, UICollectionViewDelegat
     } // end of cellForItemAt indexPath
     
     // cell cizes  // as diasplay // vertical
+    //collectionViewLayout
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.width )  // need to check
-    }
+        return CGSize(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.width )
+    }// end of collectionViewLayout
     
+    
+    // didSelectItemAt indexPath
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        //MARK: какие данные хотим передать
+        //какие данные хотим передать
         let cellImage = (collectionView.cellForItem(at: indexPath) as? PixaViewCell)?.pixaImageOutlet.image
         let cellTags = (collectionView.cellForItem(at: indexPath) as? PixaViewCell)?.tagsLabelOutlet.text
         
@@ -141,19 +159,24 @@ extension PixaViewController:UICollectionViewDataSource, UICollectionViewDelegat
         vc.tags = cellTags ?? "No tags"
         
         self.navigationController?.pushViewController(vc, animated: true)
-    }
+    } //end of didSelectItemAt indexPath
     
+    
+        // willDisplay cell
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
         // print("index path is \(indexPath.row)")
-        
-        
-        viewPage = viewPage + 1
-        if indexPath.row == hitsRESULT.count-1 {
-          
-          //  print("called paggination")
-           // fetch(order: order, filterCategory: categogies)
+    
+        if indexPath.row == hitsRESULT.count-1 && hitsRESULT.count != total{
+                viewPage = viewPage + 1
+            fetch(order: order, currentPage: viewPage, filterCategory: categogies)
+          //  print("view page is \(viewPage)")
+            //  print("called paggination")
+//            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5){ [self] in
+//                self.fetch(order: order, currentPage: viewPage, filterCategory: categogies)
+//            }
         }
-    }
+    } //end of  willDisplay cell
+    
 }// end of Extensions
 
 
