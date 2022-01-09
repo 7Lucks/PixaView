@@ -23,14 +23,13 @@ class PixaViewCell: UICollectionViewCell {
     override func prepareForReuse() {
         super.prepareForReuse()
         self.pixaImageOutlet.image = nil
-       
     }
-
+    
     override func awakeFromNib() {
         super.awakeFromNib()
-            pixaImageOutlet.clipsToBounds = true              // clip to bounds
+        pixaImageOutlet.clipsToBounds = true              // clip to bounds
         pixaImageOutlet.contentMode = .scaleAspectFill   // aspect fill
-        pixaImageOutlet.layer.cornerRadius = 15      
+        pixaImageOutlet.layer.cornerRadius = 15
     }
     //MARK: - end of Properties
 }//end of PixaViewCell
