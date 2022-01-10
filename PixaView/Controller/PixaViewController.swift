@@ -103,7 +103,7 @@ class PixaViewController: UIViewController{
 //            service.fetchPics(order: order, filterCategory: filterCategory, currentPage: currentPage) { fetchedHits, total in
         service.fetchPics(order: order, filterCategory: filterCategory, currentPage: currentPage) {result in
             
-            switch result {
+            switch result{
             case .success(( let hitsRESULT, let total )):
             DispatchQueue.main.async {
                 self.total = total
@@ -111,8 +111,11 @@ class PixaViewController: UIViewController{
                 self.collectionView.reloadData()
             } // dispatch
       
-            case .failure(_):
-                self.alertError(title: "Error", message: "Connection lost, please try again")
+            case .failure(let error):
+                DispatchQueue.main.async {
+                    let error = error.localizedDescription
+                self.alertError(title: "Error", message: "Connection lost, please try again - \(error)")
+                }
             } // end of fetchPics
         }
     }

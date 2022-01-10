@@ -9,7 +9,7 @@ import TestFramework
 
 let myKeyId = "16834549-9bf1a2a9f7bfa54e36404be81"
 
-enum Categories: String, CaseIterable{
+enum Categories: String, CaseIterable, Equatable{
     case backgrounds
     case fashion
     case nature
@@ -61,6 +61,7 @@ public class HTTPService{
                 completion(.failure(error))
                 break
             }//end of switch
+            //completion(.failure(NSError(domain: "1", code: 300, userInfo: [NSLocalizedDescriptionKey: "abcd"])))
         }// end of session
         //print("the url is -- \(urlComponents.url)")
     } // end of fetchPics
