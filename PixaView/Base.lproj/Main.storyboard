@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="h4n-ty-D7a">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19519"/>
         <capability name="Image references" minToolsVersion="12.0"/>
@@ -13,7 +14,7 @@
             <objects>
                 <viewController storyboardIdentifier="FilterViewControllerID" title="FilterViewController" id="qHK-lg-MNB" customClass="TableFilterVC" customModule="PixaView" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="OSa-py-nRf">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <viewLayoutGuide key="safeArea" id="RHc-qz-Q2u"/>
                         <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -28,13 +29,13 @@
             <objects>
                 <viewController id="RI5-HY-qXl" customClass="PixaViewController" customModule="PixaView" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="fTc-ON-XNR">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="v5w-hF-jLO">
-                                <rect key="frame" x="0.0" y="44" width="600" height="556"/>
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" contentInsetAdjustmentBehavior="never" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="v5w-hF-jLO">
+                                <rect key="frame" x="0.0" y="88" width="414" height="774"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                                <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="0.0" minimumInteritemSpacing="0.0" id="vhy-aw-iGQ">
+                                <collectionViewFlowLayout key="collectionViewLayout" automaticEstimatedItemSize="YES" minimumLineSpacing="0.0" minimumInteritemSpacing="0.0" id="vhy-aw-iGQ">
                                     <size key="itemSize" width="200" height="200"/>
                                     <size key="headerReferenceSize" width="0.0" height="0.0"/>
                                     <size key="footerReferenceSize" width="0.0" height="0.0"/>
@@ -46,16 +47,16 @@
                         <viewLayoutGuide key="safeArea" id="rqg-82-jQE"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="rqg-82-jQE" firstAttribute="bottom" secondItem="v5w-hF-jLO" secondAttribute="bottom" id="c0i-YN-XwI"/>
-                            <constraint firstItem="v5w-hF-jLO" firstAttribute="leading" secondItem="fTc-ON-XNR" secondAttribute="leading" id="gV5-IS-12p"/>
-                            <constraint firstItem="rqg-82-jQE" firstAttribute="trailing" secondItem="v5w-hF-jLO" secondAttribute="trailing" id="mhW-ts-7tP"/>
-                            <constraint firstItem="v5w-hF-jLO" firstAttribute="top" secondItem="rqg-82-jQE" secondAttribute="top" id="oGW-pg-5lz"/>
+                            <constraint firstItem="v5w-hF-jLO" firstAttribute="bottom" secondItem="rqg-82-jQE" secondAttribute="bottom" id="FRK-mw-qhF"/>
+                            <constraint firstItem="v5w-hF-jLO" firstAttribute="top" secondItem="rqg-82-jQE" secondAttribute="top" id="LMR-8q-FgE"/>
+                            <constraint firstItem="v5w-hF-jLO" firstAttribute="trailing" secondItem="rqg-82-jQE" secondAttribute="trailing" id="OhT-5g-wfs"/>
+                            <constraint firstItem="v5w-hF-jLO" firstAttribute="leading" secondItem="rqg-82-jQE" secondAttribute="leading" id="qKc-6t-94o"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="PixaView" id="oKs-eu-c0w">
                         <barButtonItem key="leftBarButtonItem" id="V2N-v5-Xmj">
                             <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" id="1aZ-G9-JbH">
-                                <rect key="frame" x="20" y="5" width="92" height="34.333333333333336"/>
+                                <rect key="frame" x="20" y="5" width="92" height="34.5"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="tintColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <state key="normal" title="Button"/>
@@ -80,11 +81,11 @@
             <objects>
                 <viewController storyboardIdentifier="DetailedViewController" id="M1W-Kd-fcM" customClass="DetailedViewController" customModule="PixaView" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="hGz-eZ-xT9">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFill" pagingEnabled="YES" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="G5V-tS-bu3">
-                                <rect key="frame" x="0.0" y="44" width="600" height="556"/>
+                                <rect key="frame" x="0.0" y="88" width="414" height="774"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="gb1-iC-TFR">
                                     <size key="itemSize" width="128" height="128"/>
@@ -107,7 +108,7 @@
                     <navigationItem key="navigationItem" id="eke-40-b7U">
                         <barButtonItem key="rightBarButtonItem" style="plain" id="pIx-Dy-V87">
                             <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" id="frB-x5-cxx">
-                                <rect key="frame" x="266" y="5" width="128" height="34.333333333333336"/>
+                                <rect key="frame" x="266" y="5" width="128" height="34.5"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="tintColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <state key="normal" title="Button"/>

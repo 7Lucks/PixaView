@@ -35,24 +35,32 @@ class PixaViewController: UIViewController{
         setupCollectionView()
         // setupCollectionViewItemSize()
         // setupCollectionViewLayout()
-        landscapeLayoutCollectionView()
+//        landscapeLayoutCollectionView()
         
         fetch(order: order, currentPage: viewPage, filterCategory: categogies)
     }
     //MARK: - End of viewDidLoad
     
     
-    override func viewWillLayoutSubviews() {
-        super.viewWillLayoutSubviews()
+    
+    
+    //MARK: - view will layout
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
         if UIDevice.current.orientation.isLandscape {
             landscapeLayoutCollectionView()
-        }else if UIDevice.current.orientation.isPortrait {
+        }else if UIDevice.current.orientation.isPortrait{
             portaitCollectionView()
         }
-        
-        
     }
     
+//
+//    override func viewWillLayoutSubviews() {
+//        super.viewWillLayoutSubviews()
+//
+//    }
+//
+//
     // pixa sort button
     @objc private func pixaSortButton(){
         dismiss(animated: true, completion: nil)
@@ -92,17 +100,22 @@ class PixaViewController: UIViewController{
     func fetch(order: Order, currentPage: Int, filterCategory: [Categories]){
         let URLSession = URLSession.shared
         let service: HTTPService = HTTPService(with: URLSessionHttpClient(session: URLSession))
-        service.fetchPics(order: order, filterCategory: filterCategory, currentPage: currentPage) { fetchedHits, total in
+//            service.fetchPics(order: order, filterCategory: filterCategory, currentPage: currentPage) { fetchedHits, total in
+        service.fetchPics(order: order, filterCategory: filterCategory, currentPage: currentPage) {result in
             
+            switch result {
+            case .success(( let hitsRESULT, let total )):
             DispatchQueue.main.async {
                 self.total = total
-                self.hitsRESULT.append(contentsOf: fetchedHits)
+                self.hitsRESULT.append(contentsOf: hitsRESULT)
                 self.collectionView.reloadData()
             } // dispatch
+      
+            case .failure(_):
+                self.alertError(title: "Error", message: "Connection lost, please try again")
+            } // end of fetchPics
         }
-    } // end of fetchPics
-    
-    
+    }
     
     //MARK: - End of <Methods>
 } // end of PixaViewController class
@@ -182,24 +195,37 @@ extension PixaViewController:UICollectionViewDataSource, UICollectionViewDelegat
     //
     //        super.viewWillTransition(to: size, with: coordinator)
     //    }
-    
+    //https://stackoverflow.com/questions/37152071/landscape-orientation-for-collection-view-in-swift
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+        
+        switch UIDevice.current.orientation {
+                case .landscapeLeft, .landscapeRight:
+                    coordinator.animate (alongsideTransition: { (_) in
+                        self.landscapeLayoutCollectionView()
+                    }, completion: nil )
+                case .portrait, .portraitUpsideDown:
+                    coordinator.animate (alongsideTransition: { (_) in
+                        self.portaitCollectionView()
+                    }, completion: nil )
+                default:
+                    print("error")
+                }
         super.viewWillTransition(to: size, with: coordinator)
         
-        if UIDevice.current.orientation.isLandscape {
-            print("Landscape")
-            landscapeLayoutCollectionView()
-            
-        } else {
-            print("Portrait")
-            portaitCollectionView()
-        }
+//        if UIDevice.current.orientation.isLandscape {
+//          //  print("Landscape")
+//            landscapeLayoutCollectionView()
+//
+//        } else {
+//         //   print("Portrait")
+//            portaitCollectionView()
+//        }
     }
     
     //https://stackoverflow.com/questions/38894031/swift-how-to-detect-orientation-changes
     private func portaitCollectionView(){
         //collectionViewFlowLayout = UICollectionViewFlowLayout()
-        collectionView.setCollectionViewLayout(collectionViewFlowLayout, animated: true)
+        
         //        let layout = UICollectionViewFlowLayout()
         //        layout.itemSize = CGSize(width: view.frame.size.width, height: view.frame.size.height)
         
@@ -217,7 +243,7 @@ extension PixaViewController:UICollectionViewDataSource, UICollectionViewDelegat
         collectionViewFlowLayout.minimumLineSpacing = lineSpacing
         collectionViewFlowLayout.minimumInteritemSpacing = interItemSpacing
         
-        
+        collectionView.setCollectionViewLayout(collectionViewFlowLayout, animated: true)
     }
     
     
@@ -225,29 +251,24 @@ extension PixaViewController:UICollectionViewDataSource, UICollectionViewDelegat
     private func landscapeLayoutCollectionView(){
         
         //if collectionViewFlowLayout == nil{
-        let numberOfItemsInRow: CGFloat = 3
-        let lineSpacing: CGFloat = 5
-        let interItemSpacing: CGFloat = 5
-        
-        let width = ( collectionView.frame.width - CGFloat((numberOfItemsInRow - 1)) * interItemSpacing) / numberOfItemsInRow
-        let height = width
-        
-        collectionViewFlowLayout.itemSize = CGSize(width: width, height: height)
+        let numberOfItemsInRow: CGFloat = 2
+        let lineSpacing: CGFloat = 2
+        let interItemSpacing: CGFloat = 2
         collectionViewFlowLayout.sectionInset = UIEdgeInsets.zero
         collectionViewFlowLayout.scrollDirection = .vertical
         collectionViewFlowLayout.minimumLineSpacing = lineSpacing
         collectionViewFlowLayout .sectionInsetReference = .fromSafeArea
         collectionViewFlowLayout.minimumInteritemSpacing = interItemSpacing
         
+        let width = ( collectionView.frame.width - CGFloat((numberOfItemsInRow - 1)) * interItemSpacing) / numberOfItemsInRow
+//        let width = 300
+        let height = width
+        
+        collectionViewFlowLayout.itemSize = CGSize(width: width, height: height)
+        collectionView.setCollectionViewLayout(collectionViewFlowLayout, animated: true)
         //  }
         
     }
-    
-    
-    
-    
-    
-    
     
     
     // didSelectItemAt indexPath
@@ -269,7 +290,7 @@ extension PixaViewController:UICollectionViewDataSource, UICollectionViewDelegat
     // willDisplay cell
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
         // print("index path is \(indexPath.row)")
-        
+    
         if indexPath.row == hitsRESULT.count-1 && hitsRESULT.count != total{
             viewPage = viewPage + 1
             fetch(order: order, currentPage: viewPage, filterCategory: categogies)
