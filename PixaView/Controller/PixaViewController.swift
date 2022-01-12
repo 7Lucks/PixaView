@@ -34,10 +34,6 @@ class PixaViewController: UIViewController{
         setupCollectionView()
         fetch(order: order, currentPage: currentPage, filterCategory: category)
     }
-    //MARK: - End of viewDidLoad
-    
-    
-    
     
     //MARK: - view will layout
     override func viewDidLayoutSubviews() {

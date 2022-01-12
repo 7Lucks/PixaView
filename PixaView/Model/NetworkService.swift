@@ -54,7 +54,7 @@ public class HTTPService{
         
         session.get(from: urlComponents.url!) { (result) in
             switch result {
-            case let .success(data, response):
+            case let .success((data, response)):
                 let response = try! JSONDecoder().decode(ImageAPIResponse.self, from: data)
                 completion(.success((response.hits, response.total)))
             case let .failure(error):
@@ -82,7 +82,7 @@ struct ImageLoader {
         session.get(from: url) { (result) in
             
             switch result {
-            case let .success(data, _):
+            case let .success((data, _)):
                 completion(UIImage(data: data)!)
             case let .failure(error):
                 break
