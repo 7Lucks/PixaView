@@ -90,7 +90,6 @@ class SortButtonVC: UIViewController{
         setupConstraints()
     }
     
-    
     //MARK: VC small window -
     let viewControllerSmallSortView = UIView(frame: CGRect(x: 100 , y:30 , width: 250, height: 200))
     
@@ -151,6 +150,7 @@ extension SortButtonVC{
 }
 //https://proswift.ru/vspomogatelnye-inicializatory-convenience-init/ convinience init
 //https://github.com/SwifterSwift/SwifterSwift/blob/master/Sources/SwifterSwift/UIKit/UIStackViewExtensions.swift
+
 
 //MARK: - extension to UIStackView to create stack view for buttons
 extension UIStackView{

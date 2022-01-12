@@ -25,6 +25,7 @@ class DetailedCell: UICollectionViewCell {
         detailImageOutlet.clipsToBounds = true
         detailImageOutlet.contentMode = .scaleAspectFill
     }
+    
     override func prepareForReuse() {
         super.prepareForReuse()
         self.detailImageOutlet.image = nil

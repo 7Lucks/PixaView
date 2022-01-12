@@ -63,7 +63,7 @@ public class HTTPService{
             }//end of switch
             //completion(.failure(NSError(domain: "1", code: 300, userInfo: [NSLocalizedDescriptionKey: "abcd"])))
         }// end of session
-        //print("the url is -- \(urlComponents.url)")
+        //print("the url is - \(urlComponents.url)")
     } // end of fetchPics
     
 } // end of HTTPService

@@ -22,9 +22,6 @@ class PixaViewController: UIViewController{
     var currentPage = 1
     var total = 0
     var collectionViewFlowLayout = UICollectionViewFlowLayout()
-    //MARK: - end of Properties
-    
-    
     
     //MARK:  viewDidLoad -
     override func viewDidLoad() {
@@ -34,22 +31,18 @@ class PixaViewController: UIViewController{
         setupCollectionView()
         fetch(order: order, currentPage: currentPage, filterCategory: category)
     }
-    //MARK: - End of viewDidLoad
-    
-    
-    
     
     //MARK: - view will layout
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
+        
         if UIDevice.current.orientation.isLandscape {
             landscapeLayoutCollectionView()
         }else if UIDevice.current.orientation.isPortrait{
             portaitCollectionView()
         }
     }
-    
-    
+
     // pixa sort button
     @objc private func pixaSortButton(){
         dismiss(animated: true, completion: nil)
@@ -58,7 +51,6 @@ class PixaViewController: UIViewController{
         sortButtonVC.sortImageDelegate = self
         self.present(sortButtonVC, animated: true)
     }
-    
     
     //MARK: - actions
     //filterButtonDidTap
@@ -69,16 +61,12 @@ class PixaViewController: UIViewController{
         filterViewController?.holder = self
         filterViewController?.tableViewFilterSelectedDelegate = self
         
-        
         let navVC = UINavigationController(rootViewController: filterVC)
         self.present(navVC, animated: true, completion: nil)
         filterViewController?.selectedCategories = category
-        
-        
     } //end of filterButtonDidTap
     
-    
-    //MARK: <Methods>
+    //MARK: <Methods>-
     
     // collection view setup
     private func setupCollectionView(){
@@ -87,15 +75,7 @@ class PixaViewController: UIViewController{
         self.collectionView.delegate = self //delegate with collectionView. Subscribe to UICollectionViewDelegate as delegate
     }
     
-    
-    //    func saveSortStatus(){
-    //        let filterVC = TableFilterVC()
-    //        //chekedItems = filterVC.selectedCategories
-    //        chekedItems.append(contentsOf: filterVC.selectedCategories)
-    //        print ("main vc contains \(chekedItems)")
-    //    }
-    
-    //MARK: - fetch data
+    //MARK: - Fetch data
     func fetch(order: Order, currentPage: Int, filterCategory: [Categories]){
         let URLSession = URLSession.shared
         let service: HTTPService = HTTPService(with: URLSessionHttpClient(session: URLSession))
@@ -114,7 +94,6 @@ class PixaViewController: UIViewController{
                 DispatchQueue.main.async {
                     let error = error.localizedDescription
                     let alert = UIAlertController(title: "Алярм", message: error, preferredStyle: .alert)
-                    let okButton = UIAlertAction(title: "понял принял", style: .default)
                     let  retry = UIAlertAction.init(title: "понял принял", style: .default) { _ in
                         self.fetch(order: order, currentPage: currentPage, filterCategory: filterCategory)
                     }
@@ -126,13 +105,11 @@ class PixaViewController: UIViewController{
             } // end of fetchPics
         }
     }
-    
-    //MARK: - End of <Methods>
+//End of <Methods>
 } // end of PixaViewController class
 
 //MARK: Extensions -
 extension PixaViewController:UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, TableFilterViewControllerDelegate, SortImageProtocol {
-    
     
     //MARK: delegates for filter / sort -
     //filter delegate
@@ -144,7 +121,6 @@ extension PixaViewController:UICollectionViewDataSource, UICollectionViewDelegat
         print(filterCategory)
     }
     
-    // когда  передаем енам в метод, передаем переменную которая создаеся в методе в этом случае sort !!
     //sort image delegate
     func sortInTableDidTap(sortButtodDidTap sort: Order) {
         hitsRESULT.removeAll()

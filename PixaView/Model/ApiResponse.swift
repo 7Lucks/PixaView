@@ -18,6 +18,5 @@ struct Hits: Codable{
     let id: Int
     let webformatURL: String
     let tags: String
-  // let order: String
 }
 
