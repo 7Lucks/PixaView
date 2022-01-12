@@ -10,11 +10,6 @@ import UIKit
 extension UIViewController{
     
     func alertError(title: String, message: String){
-        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        let okButton = UIAlertAction(title: "понял принял", style: .default)
-        
-        alert.addAction(okButton)
-        present(alert, animated: true, completion: nil)
         
     }
 }

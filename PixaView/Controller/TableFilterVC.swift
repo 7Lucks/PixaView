@@ -45,12 +45,15 @@ class TableFilterVC: UIViewController, UITableViewDelegate, UITableViewDataSourc
         
         tableView.delegate = self
         tableView.dataSource = self
+        
+        
     }//end of viewDidLoad
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         tableView.frame = view.bounds
     }
+
     
     //MARK: button actions-
     
@@ -64,6 +67,7 @@ class TableFilterVC: UIViewController, UITableViewDelegate, UITableViewDataSourc
         self.navigationController?.popViewController(animated: true)
         
         tableViewFilterSelectedDelegate?.filterButtonDidTap(filterCategory: selectedCategories)
+        
         dismiss(animated: true, completion: nil)
         
     }
@@ -74,29 +78,56 @@ class TableFilterVC: UIViewController, UITableViewDelegate, UITableViewDataSourc
         return filterCategory.count
     }
     
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
         cell.textLabel?.text = filterCategory[indexPath.row].rawValue.capitalized
+
+        if selectedCategories.contains(filterCategory[indexPath.row]){
+            cell.accessoryType = .checkmark
+        }else{
+            cell.accessoryType = .none
+        }
         
         return cell
     }
     
+    
     // select rows
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
+        holder?.enumValue = filterCategory[indexPath.row].rawValue
+      //  selectedCategories.append(filterCategory[indexPath.row])
         //checkmarks in tableview
+        
+        
         if tableView.cellForRow(at: indexPath)?.accessoryType == .checkmark{
             tableView.cellForRow(at: indexPath)?.accessoryType = .none
-        }else {
-            tableView.cellForRow(at: indexPath)?.accessoryType = .checkmark
+            //selectedCategories.remove(at:[indexPath.row])
+            
+            // слева переменная для каждого элемента коллекции  // справа источник данных
+            // повторить for in
+            // нахождение ужадение елемента массива
+//            for i in selectedCategories.enumerated(){
+//                if i.element == filterCategory[indexPath.row]{
+//                    selectedCategories.remove(at: i.offset)
+//                }
+//            }
+            //   второй вариант
+            guard let selected = selectedCategories.firstIndex(of: filterCategory[indexPath.row]) else{return}
+            selectedCategories.remove(at: selected)
+          
+        }else { tableView.cellForRow(at: indexPath)?.accessoryType = .checkmark
+            selectedCategories.append(filterCategory[indexPath.row])
         }
+        
         //animation for selection
         tableView.deselectRow(at: indexPath, animated: true)
-        
-        holder?.enumValue = filterCategory[indexPath.row].rawValue
-        selectedCategories.append(filterCategory[indexPath.row])
-        
+        print (" the category is \(selectedCategories)")
+//        let vc = PixaViewController()
+//        vc.saveSortStatus()
     }
+    
+    
     
     // viewForHeader
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {

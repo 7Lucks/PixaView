@@ -18,10 +18,9 @@ class PixaViewController: UIViewController{
     var hitsRESULT: [Hits] = [] //array from json
     var enumValue = ""
     var order: Order = .popular
-    var categogies: [Categories] = [.computer]
-    var viewPage = 1
+    var category: [Categories] = [.computer]
+    var currentPage = 1
     var total = 0
-    
     var collectionViewFlowLayout = UICollectionViewFlowLayout()
     //MARK: - end of Properties
     
@@ -33,11 +32,7 @@ class PixaViewController: UIViewController{
         
         let sortButton = navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "line.3.horizontal.circle"), style: .plain, target: self, action: #selector(pixaSortButton))
         setupCollectionView()
-        // setupCollectionViewItemSize()
-        // setupCollectionViewLayout()
-//        landscapeLayoutCollectionView()
-        
-        fetch(order: order, currentPage: viewPage, filterCategory: categogies)
+        fetch(order: order, currentPage: currentPage, filterCategory: category)
     }
     //MARK: - End of viewDidLoad
     
@@ -54,13 +49,7 @@ class PixaViewController: UIViewController{
         }
     }
     
-//
-//    override func viewWillLayoutSubviews() {
-//        super.viewWillLayoutSubviews()
-//
-//    }
-//
-//
+    
     // pixa sort button
     @objc private func pixaSortButton(){
         dismiss(animated: true, completion: nil)
@@ -80,8 +69,11 @@ class PixaViewController: UIViewController{
         filterViewController?.holder = self
         filterViewController?.tableViewFilterSelectedDelegate = self
         
+        
         let navVC = UINavigationController(rootViewController: filterVC)
         self.present(navVC, animated: true, completion: nil)
+        filterViewController?.selectedCategories = category
+        
         
     } //end of filterButtonDidTap
     
@@ -96,25 +88,40 @@ class PixaViewController: UIViewController{
     }
     
     
+    //    func saveSortStatus(){
+    //        let filterVC = TableFilterVC()
+    //        //chekedItems = filterVC.selectedCategories
+    //        chekedItems.append(contentsOf: filterVC.selectedCategories)
+    //        print ("main vc contains \(chekedItems)")
+    //    }
+    
     //MARK: - fetch data
     func fetch(order: Order, currentPage: Int, filterCategory: [Categories]){
         let URLSession = URLSession.shared
         let service: HTTPService = HTTPService(with: URLSessionHttpClient(session: URLSession))
-//            service.fetchPics(order: order, filterCategory: filterCategory, currentPage: currentPage) { fetchedHits, total in
+        //            service.fetchPics(order: order, filterCategory: filterCategory, currentPage: currentPage) { fetchedHits, total in
         service.fetchPics(order: order, filterCategory: filterCategory, currentPage: currentPage) {result in
             
             switch result{
             case .success(( let hitsRESULT, let total )):
-            DispatchQueue.main.async {
-                self.total = total
-                self.hitsRESULT.append(contentsOf: hitsRESULT)
-                self.collectionView.reloadData()
-            } // dispatch
-      
+                DispatchQueue.main.async {
+                    self.total = total
+                    self.hitsRESULT.append(contentsOf: hitsRESULT)
+                    self.collectionView.reloadData()
+                } // dispatch
+                
             case .failure(let error):
                 DispatchQueue.main.async {
                     let error = error.localizedDescription
-                self.alertError(title: "Error", message: "Connection lost, please try again - \(error)")
+                    let alert = UIAlertController(title: "Алярм", message: error, preferredStyle: .alert)
+                    let okButton = UIAlertAction(title: "понял принял", style: .default)
+                    let  retry = UIAlertAction.init(title: "понял принял", style: .default) { _ in
+                        self.fetch(order: order, currentPage: currentPage, filterCategory: filterCategory)
+                    }
+                    //alert.addAction(okButton)
+                    alert.addAction(retry)
+                    self.present(alert, animated: true, completion: nil)
+                    
                 }
             } // end of fetchPics
         }
@@ -131,9 +138,9 @@ extension PixaViewController:UICollectionViewDataSource, UICollectionViewDelegat
     //filter delegate
     func filterButtonDidTap(filterCategory: [Categories]) {
         hitsRESULT.removeAll()
-        viewPage = 1
-        fetch(order: order, currentPage: viewPage , filterCategory: filterCategory)
-        categogies = filterCategory
+        currentPage = 1
+        fetch(order: order, currentPage: currentPage , filterCategory: filterCategory)
+        category = filterCategory
         print(filterCategory)
     }
     
@@ -141,8 +148,8 @@ extension PixaViewController:UICollectionViewDataSource, UICollectionViewDelegat
     //sort image delegate
     func sortInTableDidTap(sortButtodDidTap sort: Order) {
         hitsRESULT.removeAll()
-        viewPage = 1
-        fetch(order: sort, currentPage: viewPage, filterCategory: categogies)
+        currentPage = 1
+        fetch(order: sort, currentPage: currentPage, filterCategory: category)
         order = sort
         print(sort)
     }
@@ -165,8 +172,7 @@ extension PixaViewController:UICollectionViewDataSource, UICollectionViewDelegat
         
         //tags
         let hitsTags = hitsRESULT[indexPath.item].tags
-        
-        
+        //url
         let url = URL(string: hitsRESULT[indexPath.row].webformatURL)!
         cell.activityIndicator.startAnimating()
         ImageLoader(with: URLSessionHttpClient(session: URLSession.shared)).loadPics(from: url) { (image) in
@@ -180,58 +186,33 @@ extension PixaViewController:UICollectionViewDataSource, UICollectionViewDelegat
         }
         return cell
     } // end of cellForItemAt indexPath
-    
-    //MARK: image size default -
-    // cell cizes  // as diasplay // vertical
-    //collectionViewLayout
-    //            func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-    //                return CGSize(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.width )
-    //            }// end of collectionViewLayout
-    //
-    
+
     //MARK: - new image size and rotation
     // https://stackoverflow.com/questions/38894031/swift-how-to-detect-orientation-changes
-    //    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
-    //        coordinator.animate(alongsideTransition: { (_) in
-    //            self.horisontalLayoutCollectionView()
-    //        }, completion: nil)
-    //
-    //        super.viewWillTransition(to: size, with: coordinator)
-    //    }
+    //view Will Transition
     //https://stackoverflow.com/questions/37152071/landscape-orientation-for-collection-view-in-swift
+    
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         
         switch UIDevice.current.orientation {
-                case .landscapeLeft, .landscapeRight:
-                    coordinator.animate (alongsideTransition: { (_) in
-                        self.landscapeLayoutCollectionView()
-                    }, completion: nil )
-                case .portrait, .portraitUpsideDown:
-                    coordinator.animate (alongsideTransition: { (_) in
-                        self.portaitCollectionView()
-                    }, completion: nil )
-                default:
-                    print("error")
-                }
+        case .landscapeLeft, .landscapeRight:
+            coordinator.animate (alongsideTransition: { (_) in
+                self.landscapeLayoutCollectionView()
+            }, completion: nil )
+        case .portrait, .portraitUpsideDown:
+            coordinator.animate (alongsideTransition: { (_) in
+                self.portaitCollectionView()
+            }, completion: nil )
+        default:
+            print("error")
+        }
         super.viewWillTransition(to: size, with: coordinator)
-        
-//        if UIDevice.current.orientation.isLandscape {
-//          //  print("Landscape")
-//            landscapeLayoutCollectionView()
-//
-//        } else {
-//         //   print("Portrait")
-//            portaitCollectionView()
-//        }
     }
     
     //https://stackoverflow.com/questions/38894031/swift-how-to-detect-orientation-changes
+    
+    // Portrait orientation
     private func portaitCollectionView(){
-        //collectionViewFlowLayout = UICollectionViewFlowLayout()
-        
-        //        let layout = UICollectionViewFlowLayout()
-        //        layout.itemSize = CGSize(width: view.frame.size.width, height: view.frame.size.height)
-        
         let numberOfItemsPerRow : CGFloat = 1
         let lineSpacing:CGFloat = 5
         let interItemSpacing :CGFloat = 5
@@ -245,18 +226,16 @@ extension PixaViewController:UICollectionViewDataSource, UICollectionViewDelegat
         collectionViewFlowLayout.scrollDirection = .vertical
         collectionViewFlowLayout.minimumLineSpacing = lineSpacing
         collectionViewFlowLayout.minimumInteritemSpacing = interItemSpacing
-        
         collectionView.setCollectionViewLayout(collectionViewFlowLayout, animated: true)
     }
     
-    
-    
+    // Landscape orientation
     private func landscapeLayoutCollectionView(){
-        
-        //if collectionViewFlowLayout == nil{
+       
         let numberOfItemsInRow: CGFloat = 2
         let lineSpacing: CGFloat = 2
         let interItemSpacing: CGFloat = 2
+        
         collectionViewFlowLayout.sectionInset = UIEdgeInsets.zero
         collectionViewFlowLayout.scrollDirection = .vertical
         collectionViewFlowLayout.minimumLineSpacing = lineSpacing
@@ -264,15 +243,11 @@ extension PixaViewController:UICollectionViewDataSource, UICollectionViewDelegat
         collectionViewFlowLayout.minimumInteritemSpacing = interItemSpacing
         
         let width = ( collectionView.frame.width - CGFloat((numberOfItemsInRow - 1)) * interItemSpacing) / numberOfItemsInRow
-//        let width = 300
         let height = width
         
         collectionViewFlowLayout.itemSize = CGSize(width: width, height: height)
         collectionView.setCollectionViewLayout(collectionViewFlowLayout, animated: true)
-        //  }
-        
     }
-    
     
     // didSelectItemAt indexPath
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
@@ -292,16 +267,10 @@ extension PixaViewController:UICollectionViewDataSource, UICollectionViewDelegat
     
     // willDisplay cell
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-        // print("index path is \(indexPath.row)")
-    
+        
         if indexPath.row == hitsRESULT.count-1 && hitsRESULT.count != total{
-            viewPage = viewPage + 1
-            fetch(order: order, currentPage: viewPage, filterCategory: categogies)
-            //  print("view page is \(viewPage)")
-            //  print("called paggination")
-            //            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5){ [self] in
-            //                self.fetch(order: order, currentPage: viewPage, filterCategory: categogies)
-            //            }
+            currentPage = currentPage + 1
+            fetch(order: order, currentPage: currentPage, filterCategory: category)
         }
     } //end of  willDisplay cell
     
