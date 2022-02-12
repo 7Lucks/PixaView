@@ -15,10 +15,8 @@ class PixaViewCell: UICollectionViewCell {
     @IBOutlet weak var tagsLabelOutlet: UILabel!
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     //MARK: - end of Outlets
-    
     //MARK: Properties-
     static let cellIdentifier = "PixaViewCell"
-    
     //reuse of cell and nill for images
     override func prepareForReuse() {
         super.prepareForReuse()

@@ -12,7 +12,7 @@ protocol TableFilterViewControllerDelegate: AnyObject{
     func filterButtonDidTap(filterCategory: [Categories])
 }
 
-class TableFilterVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
+class FilterViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
     //MARK:  Properties-
     let tableView = UITableView()
@@ -78,7 +78,6 @@ class TableFilterVC: UIViewController, UITableViewDelegate, UITableViewDataSourc
         return filterCategory.count
     }
     
-    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
         cell.textLabel?.text = filterCategory[indexPath.row].rawValue.capitalized
@@ -92,14 +91,9 @@ class TableFilterVC: UIViewController, UITableViewDelegate, UITableViewDataSourc
         return cell
     }
     
-    
     // select rows
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         holder?.enumValue = filterCategory[indexPath.row].rawValue
-      //  selectedCategories.append(filterCategory[indexPath.row])
-        //checkmarks in tableview
-        
-        
         if tableView.cellForRow(at: indexPath)?.accessoryType == .checkmark{
             tableView.cellForRow(at: indexPath)?.accessoryType = .none
             //selectedCategories.remove(at:[indexPath.row])
@@ -126,9 +120,6 @@ class TableFilterVC: UIViewController, UITableViewDelegate, UITableViewDataSourc
 //        let vc = PixaViewController()
 //        vc.saveSortStatus()
     }
-    
-    
-    
     // viewForHeader
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let header = tableView.dequeueReusableHeaderFooterView(withIdentifier: "header")

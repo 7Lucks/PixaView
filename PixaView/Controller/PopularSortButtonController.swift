@@ -8,7 +8,7 @@
 import UIKit
 import TestFramework
 
-protocol SortImageProtocol: AnyObject{
+protocol  SortViewControllerDelegate: AnyObject{
     func sortInTableDidTap(sortButtodDidTap sort: Order)
 }
 
@@ -19,10 +19,10 @@ enum Order: String {
 }
 
 //MARK: -  SortButton VC
-class SortButtonVC: UIViewController{
+class SortViewController: UIViewController{
     
     //delegate to sort images
-    weak var sortImageDelegate: SortImageProtocol?
+    weak var sortImageDelegate:  SortViewControllerDelegate?
     
     //background
     private let backgroundView: UIView = {
@@ -90,9 +90,8 @@ class SortButtonVC: UIViewController{
         setupConstraints()
     }
     
-    
     //MARK: VC small window -
-    let viewControllerSmallSortView = UIView(frame: CGRect(x: 100 , y:30 , width: 250, height: 200))
+    let viewControllerSmallSortView = UIView(frame: CGRect(x: 100 , y: 30 , width: 250, height: 200))
     
     // setup View
     func setupSortView(){
@@ -113,7 +112,7 @@ class SortButtonVC: UIViewController{
 }
 
 //MARK:  extensions -
-extension SortButtonVC{
+extension SortViewController{
     
     //setup constrains
     func setupConstraints(){
@@ -149,9 +148,6 @@ extension SortButtonVC{
         ])
     }
 }
-//https://proswift.ru/vspomogatelnye-inicializatory-convenience-init/ convinience init
-//https://github.com/SwifterSwift/SwifterSwift/blob/master/Sources/SwifterSwift/UIKit/UIStackViewExtensions.swift
-
 //MARK: - extension to UIStackView to create stack view for buttons
 extension UIStackView{
     convenience init(arrangedSubviews: [UIView], axis: NSLayoutConstraint.Axis, spacing: CGFloat, /*alignment: UIStackView.Alignment,*/ distribution: UIStackView.Distribution) {

@@ -17,7 +17,7 @@ public class NetworkRequestSpy: NetworkRequest{
     
     var completion: ((Data?, URLResponse?, Error?) -> Void)?
     
-    func resume() {
+    public func resume() {
         completion?(data, response, error)
     }
 }
@@ -26,7 +26,7 @@ public class NetworkSessionSpy: NetworkSession{
     
     var request: NetworkRequestSpy = NetworkRequestSpy()
     
-    func dataTask(with url: URL, completionHandler: @escaping (Data?, URLResponse?, Error?) -> Void) -> NetworkRequest {
+    public func dataTask(with url: URL, completionHandler: @escaping (Data?, URLResponse?, Error?) -> Void) -> NetworkRequest {
         request.completion = completionHandler
         return request
     }

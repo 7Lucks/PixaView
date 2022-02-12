@@ -12,8 +12,6 @@ class PixaViewController: UIViewController{
     
     //MARK: Outlets -
     @IBOutlet weak var collectionView: UICollectionView!
-    
-    
     //MARK:  Properties -
     var hitsRESULT: [Hits] = [] //array from json
     var enumValue = ""
@@ -30,7 +28,11 @@ class PixaViewController: UIViewController{
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let sortButton = navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "line.3.horizontal.circle"), style: .plain, target: self, action: #selector(pixaSortButton))
+    navigationItem.rightBarButtonItem = UIBarButtonItem(
+            image: UIImage(systemName: "line.3.horizontal.circle"),
+            style: .plain,
+            target: self,
+            action: #selector(pixaSortButton))
         setupCollectionView()
         fetch(order: order, currentPage: currentPage, filterCategory: category)
     }
@@ -40,17 +42,17 @@ class PixaViewController: UIViewController{
         super.viewDidLayoutSubviews()
         if UIDevice.current.orientation.isLandscape {
             landscapeLayoutCollectionView()
-        }else if UIDevice.current.orientation.isPortrait{
+        } else if UIDevice.current.orientation.isPortrait {
             portaitCollectionView()
         }
     }
     
     
     // pixa sort button
-    @objc private func pixaSortButton(){
+    @objc private func pixaSortButton() {
         dismiss(animated: true, completion: nil)
         
-        let sortButtonVC = SortButtonVC()
+        let sortButtonVC = SortViewController()
         sortButtonVC.sortImageDelegate = self
         self.present(sortButtonVC, animated: true)
     }
@@ -60,8 +62,8 @@ class PixaViewController: UIViewController{
     //filterButtonDidTap
     @IBAction func filterButtonDidTap(_ sender: UIButton) {
         
-        guard let filterVC = storyboard?.instantiateViewController(withIdentifier: "FilterViewControllerID") else{return}
-        let filterViewController = filterVC as? TableFilterVC
+        guard let filterVC = storyboard?.instantiateViewController(withIdentifier: "FilterViewControllerID") else{ return }
+        let filterViewController = filterVC as? FilterViewController
         filterViewController?.holder = self
         filterViewController?.tableViewFilterSelectedDelegate = self
         
@@ -92,14 +94,14 @@ class PixaViewController: UIViewController{
     //    }
     
     //MARK: - fetch data
-    func fetch(order: Order, currentPage: Int, filterCategory: [Categories]){
+    func fetch(order: Order, currentPage: Int, filterCategory: [Categories]) {
         let URLSession = URLSession.shared
         let service: HTTPService = HTTPService(with: URLSessionHttpClient(session: URLSession))
         //            service.fetchPics(order: order, filterCategory: filterCategory, currentPage: currentPage) { fetchedHits, total in
-        service.fetchPics(order: order, filterCategory: filterCategory, currentPage: currentPage) {result in
+        service.fetchPics(order: order, filterCategory: filterCategory, currentPage: currentPage) { result in
             
-            switch result{
-            case .success(( let hitsRESULT, let total )):
+            switch result {
+            case let .success((hitsRESULT, total)):
                 DispatchQueue.main.async {
                     self.total = total
                     self.hitsRESULT.append(contentsOf: hitsRESULT)
@@ -111,7 +113,7 @@ class PixaViewController: UIViewController{
                     let error = error.localizedDescription
                     let alert = UIAlertController(title: "Алярм", message: error, preferredStyle: .alert)
                     let okButton = UIAlertAction(title: "понял принял", style: .default)
-                    let  retry = UIAlertAction.init(title: "понял принял", style: .default) { _ in
+                    let retry = UIAlertAction.init(title: "понял принял", style: .default) { _ in
                         self.fetch(order: order, currentPage: currentPage, filterCategory: filterCategory)
                     }
                     //alert.addAction(okButton)
@@ -127,7 +129,7 @@ class PixaViewController: UIViewController{
 } // end of PixaViewController class
 
 //MARK: Extensions -
-extension PixaViewController:UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, TableFilterViewControllerDelegate, SortImageProtocol {
+extension PixaViewController:UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, TableFilterViewControllerDelegate, SortViewControllerDelegate {
     
     
     //MARK: delegates for filter / sort -
@@ -140,11 +142,14 @@ extension PixaViewController:UICollectionViewDataSource, UICollectionViewDelegat
         print(filterCategory)
     }
     
+    func reset() {
+           hitsRESULT.removeAll()
+            currentPage = 1
+    }
     // когда  передаем енам в метод, передаем переменную которая создаеся в методе в этом случае sort !!
     //sort image delegate
     func sortInTableDidTap(sortButtodDidTap sort: Order) {
-        hitsRESULT.removeAll()
-        currentPage = 1
+        reset()
         fetch(order: sort, currentPage: currentPage, filterCategory: category)
         order = sort
         print(sort)
@@ -264,7 +269,7 @@ extension PixaViewController:UICollectionViewDataSource, UICollectionViewDelegat
     // willDisplay cell
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
         
-        if indexPath.row == hitsRESULT.count-1 && hitsRESULT.count != total{
+        if indexPath.row == hitsRESULT.count-1 && hitsRESULT.count != total {
             currentPage = currentPage + 1
             fetch(order: order, currentPage: currentPage, filterCategory: category)
         }
