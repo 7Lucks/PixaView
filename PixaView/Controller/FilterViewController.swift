@@ -23,7 +23,6 @@ class FilterViewController: UIViewController, UITableViewDelegate, UITableViewDa
     //MARK: - end of Properties
     
     //MARK:  viewDidLoad -
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.addSubview(tableView)
@@ -45,15 +44,12 @@ class FilterViewController: UIViewController, UITableViewDelegate, UITableViewDa
         
         tableView.delegate = self
         tableView.dataSource = self
-        
-        
     }//end of viewDidLoad
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         tableView.frame = view.bounds
     }
-
     
     //MARK: button actions-
     
@@ -81,7 +77,7 @@ class FilterViewController: UIViewController, UITableViewDelegate, UITableViewDa
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
         cell.textLabel?.text = filterCategory[indexPath.row].rawValue.capitalized
-
+        
         if selectedCategories.contains(filterCategory[indexPath.row]){
             cell.accessoryType = .checkmark
         }else{
@@ -97,19 +93,15 @@ class FilterViewController: UIViewController, UITableViewDelegate, UITableViewDa
         if tableView.cellForRow(at: indexPath)?.accessoryType == .checkmark{
             tableView.cellForRow(at: indexPath)?.accessoryType = .none
             //selectedCategories.remove(at:[indexPath.row])
-            
-            // слева переменная для каждого элемента коллекции  // справа источник данных
-            // повторить for in
-            // нахождение ужадение елемента массива
-//            for i in selectedCategories.enumerated(){
-//                if i.element == filterCategory[indexPath.row]{
-//                    selectedCategories.remove(at: i.offset)
-//                }
-//            }
+            //            for i in selectedCategories.enumerated(){
+            //                if i.element == filterCategory[indexPath.row]{
+            //                    selectedCategories.remove(at: i.offset)
+            //                }
+            //            }
             //   второй вариант
             guard let selected = selectedCategories.firstIndex(of: filterCategory[indexPath.row]) else{return}
             selectedCategories.remove(at: selected)
-          
+            
         }else { tableView.cellForRow(at: indexPath)?.accessoryType = .checkmark
             selectedCategories.append(filterCategory[indexPath.row])
         }
@@ -117,8 +109,8 @@ class FilterViewController: UIViewController, UITableViewDelegate, UITableViewDa
         //animation for selection
         tableView.deselectRow(at: indexPath, animated: true)
         print (" the category is \(selectedCategories)")
-//        let vc = PixaViewController()
-//        vc.saveSortStatus()
+        //        let vc = PixaViewController()
+        //        vc.saveSortStatus()
     }
     // viewForHeader
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
@@ -128,8 +120,7 @@ class FilterViewController: UIViewController, UITableViewDelegate, UITableViewDa
 }// end of FilterViewController
 
 //MARK: HEADER and FOOTER for the table -
-
-class TableHeader: UITableViewHeaderFooterView{
+class TableHeader: UITableViewHeaderFooterView {
     static let identifier = "TableHeader"
     
     private let label: UILabel = {
@@ -161,10 +152,4 @@ class TableHeader: UITableViewHeaderFooterView{
                              width: contentView.frame.size.width,
                              height: contentView.frame.size.height)
     }
-}
-
-// TODO: if needed footer for table view
-class TableFooter: UITableViewHeaderFooterView{
-    static let identifier = "TableFooter"
-    
 }
